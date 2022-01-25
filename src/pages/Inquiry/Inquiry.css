@@ -1,0 +1,21 @@
+.inquiry {
+    text-align: center;
+}
+
+.inquiry-body {
+    position: relative;
+    width: 80%;
+    max-width: 960px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.inquiry-details {
+    display: flex;
+    padding-top: 50px;
+}
+
+.inquiry-details-info {
+    padding-right: 100px;
+}

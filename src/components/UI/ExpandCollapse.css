@@ -1,0 +1,33 @@
+.expand-collapse {
+    margin-top: 2%;
+}
+
+.expanded {
+    width: 50%;
+    margin: auto;
+}
+
+.up {
+    margin-bottom: 1%;
+    transform: scale(1.5);
+}
+
+.down {
+    transform: scale(1.5);
+}
+
+.info-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-line p{
+    margin-bottom: 10px;
+}
+
+.info-box {
+    outline: 2px solid black;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

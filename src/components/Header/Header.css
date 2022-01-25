@@ -1,0 +1,43 @@
+.header-logo {
+    width: 80%;
+}
+
+.header-navbar-list {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding-inline-start: 0px;
+}
+
+.header-navbar-link {
+    text-decoration: none;
+    color: black;
+}
+
+.header {
+    position: relative;
+    width: 80%;
+    max-width: 960px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.work {
+    margin-bottom: 0px;
+}
+
+.header-work-submenu {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.projects {
+    padding-right: 10px;
+    margin-bottom: 0px;
+}
+
+.jobs {
+    padding-left: 10px;
+    margin-bottom: 0px;
+}

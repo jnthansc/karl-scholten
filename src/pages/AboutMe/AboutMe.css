@@ -1,0 +1,56 @@
+.AboutMe {
+    text-align: center;
+}
+
+.imageKarl img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.aboutMe-content {
+    display: flex;
+    max-width: 960px;
+    justify-content: center;
+    width: 80%;
+    margin: auto;
+}
+
+.column{
+    width: 100%;
+  float: left;
+  box-sizing: border-box;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.column h5 {
+    margin-bottom: 0px;
+    font-size: 25px;
+}
+
+.column p {
+    margin-bottom: 35px;
+    font-size: 15px;
+}
+
+.subtitle {
+    font-size: 17px;
+    color: black;
+    opacity: 50%;
+    margin-bottom: 15px;
+}
+
+.awards {
+    margin-top: 20px;
+    width: 50%;
+}
+
+.awards-line{
+    display: flex;
+    justify-content: space-between;
+}
+
+.awards p{
+    margin-bottom: 10px;
+}
+
