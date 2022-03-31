@@ -1,5 +1,5 @@
-import m1 from '../assets/Serien_Karl/MenschenKennenLernen/m1.jpg';
-import m2 from '../assets/Serien_Karl/MenschenKennenLernen/m2.jpg';
+import m1 from '../assets/Serien_Karl/MenschenKennenLernen/m2.jpg';
+import m2 from '../assets/Serien_Karl/MenschenKennenLernen/m1.jpg';
 import m3 from '../assets/Serien_Karl/MenschenKennenLernen/m3.jpg';
 import m4 from '../assets/Serien_Karl/MenschenKennenLernen/m4.jpg';
 import m5 from '../assets/Serien_Karl/MenschenKennenLernen/m5.jpg';

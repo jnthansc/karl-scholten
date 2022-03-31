@@ -1,46 +1,54 @@
 import React, { useState } from 'react';
-import './Header.css';
+import './Header.scss';
 import logo from '../../assets/Logo.jpg';
 import { Link } from 'react-router-dom';
+import { IoIosMenu, IoIosClose } from 'react-icons/io';
 
 function Header() {
-  const [isShown, setIsShown] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+
+  const openNav = () => {
+    setNavOpen(true)
+  }
+
+  const closeNav = () => {
+    setNavOpen(false)
+  }
 
   return (
-    <header className="header">
-      <Link to="/">
-        <img src={logo} className="header-logo" alt="logo" />
-      </Link>
-      <nav>
-        <ul className="header-navbar-list">
-          <li>
-            <h6>
+    <div className="header">
+      <div className="mobile-header">
+        <IoIosMenu className="menuBtn" onClick={openNav}></IoIosMenu>
+        <Link to="/">
+          <img src={logo} className="mobile-logo" alt="logo" />
+        </Link>
+        <div className={navOpen === true ? 'sidenav active' : 'sidenav'}>
+          <IoIosClose className="closebtn" onClick={closeNav}></IoIosClose>
+          <Link to="/Anfragen" className="header-navbar-link">ANFRAGEN</Link>
+          <Link to="/Arbeiten" className="header-navbar-link">ARBEITEN</Link>
+          <Link to="/UeberMich" className="header-navbar-link">ÜBER MICH</Link>
+        </div>
+      </div>
+      <header className="desktop-header">
+        <Link to="/">
+          <img src={logo} className="header-logo" alt="logo" />
+        </Link>
+        <nav>
+          <ul className="header-navbar-list">
+            <li>
               <Link to="/Anfragen" className="header-navbar-link">ANFRAGEN</Link>
-            </h6>
-          </li>
-          <li  onMouseEnter={() => {setIsShown(true)}} onMouseLeave={() => {setIsShown(false)}}>
-            <h6 className="work">
-              ARBEITEN
-            </h6>
-            {isShown && (
-              <div className="header-work-submenu">
-                <h6 className="projects">
-                  <Link to="/EigeneArbeiten" className="header-navbar-link">EIGENE ARBEITEN</Link>
-                </h6>
-                <h6 className="jobs">
-                  <Link to="/Auftraege" className="header-navbar-link">AUFTRÄGE</Link>
-                </h6>
-              </div>
-            )}
-          </li>
-          <li>
-            <h6>
+            </li>
+            <li>
+              <Link to="/Arbeiten" className="header-navbar-link">ARBEITEN</Link>
+            </li>
+            <li>
               <Link to="/UeberMich" className="header-navbar-link">ÜBER MICH</Link>
-            </h6>
-          </li>
-        </ul>
-      </nav>
-    </header>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
   );
 }
 

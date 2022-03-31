@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Slideshow from './components/UI/Slideshow';
@@ -8,11 +8,11 @@ function App() {
 
   return (
     <div className="App">
-      <Header/>
-      <div className="slideshow-container">
-      <Slideshow images={ProjectImages[0].images}/>
+      <Header />
+      <div className="app-content">
+        <Slideshow images={ProjectImages[0].images} />
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

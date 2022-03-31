@@ -1,0 +1,73 @@
+@media (min-width: 600px) {
+  .slideshow {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .active {
+    width: 100%;
+  }
+
+  .slideshow-image {
+    height: 60vh;
+    max-width: 100%;
+    object-fit: fill;
+    overflow: hidden;
+  }
+
+  .forward-arrow {
+    font-size: 3rem;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .back-arrow {
+    font-size: 3rem;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .projectNameSlide {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    opacity: 0;
+    transition: 0.5s ease;
+    background-color: rgba($color: #000000, $alpha: 0.6);
+  }
+
+  // .imageWrapper:hover {
+  //   transition: 0.5s ease;
+  //   background-color: rgba($color: #000000, $alpha: 0.6);
+
+  //   .projectNameText {
+  //     opacity: 1;
+  //   }
+  // }
+
+  .projectNameText {
+    position: absolute;
+    bottom: 30px;
+    padding: 0;
+    color: white;
+    font-size: 1.235rem;
+    // opacity: 0;
+  }
+
+  .slide:hover .imageWrapper {
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2);
+  }
+
+  .slideshowLink {
+    text-decoration: none;
+    color: black;
+  }
+
+  .slideshowProjectTitle {
+    margin-top: 20px;
+  }
+}

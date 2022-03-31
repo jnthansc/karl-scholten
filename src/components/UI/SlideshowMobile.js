@@ -1,6 +1,8 @@
-import './Slideshow.css';
+import './Slideshow.scss';
 import React, { useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { Link } from 'react-router-dom';
+import ProjectImages from '../../data/ProjectImages';
 
 const Slideshow = (props) => {
     const [current, setCurrent] = useState(0);
@@ -15,13 +17,17 @@ const Slideshow = (props) => {
     }
 
     return (
-        <div className="slider">
+        <div className="slideshow">
 
             <IoIosArrowBack className="back-arrow" onClick={previousSlide}></IoIosArrowBack>
             {props.images.map((img, index) => {
                 return (
                     <div className={index === current ? 'slide active' : 'slide'} key={index}>
-                        {index === current && (<img src={img} alt="" className="image" />)}
+                        {index === current && (
+                            <Link className="slideshowLink" onClick={() => { ProjectImages[0].activeProjectIndex = index }} to="/Arbeit">
+                                <img src={img} alt="" className="slideshow-image" />
+                            </Link>
+                        )}
                     </div>
                 );
             })}
@@ -29,6 +35,15 @@ const Slideshow = (props) => {
 
 
         </div>
+        // <Carousel>
+        //     {props.images.map((img, index) => {
+        //         return (
+        //             <Link onClick={() => { ProjectImages[0].activeProjectIndex = index }} to="/Arbeit">
+        //                 <img src={img} alt="" className="" />
+        //             </Link>
+        //         );
+        //     })}
+        // </Carousel>
     );
 }
 

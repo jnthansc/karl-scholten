@@ -1,4 +1,4 @@
-import './JobDetail.css';
+import './JobDetail.scss';
 
 const JobDetail = () => {
 

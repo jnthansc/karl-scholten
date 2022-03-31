@@ -1,0 +1,33 @@
+.inquiry {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.inquiry-body {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.inquiry-details-info h5 {
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 600px) {
+
+    .inquiry-body {
+        width: 60%;
+    }
+
+    .inquiry-details {
+        display: flex;
+        padding-top: 50px;
+    }
+
+    .inquiry-details-info {
+        padding-right: 100px;
+    }
+}

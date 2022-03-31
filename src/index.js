@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
 import Inquiry from './pages/Inquiry/Inquiry';
 import Projects from './pages/Projects/Projects';
-import Jobs from './pages/Jobs/Jobs';
 import AboutMe from './pages/AboutMe/AboutMe';
 import Slideshow from './components/UI/Slideshow';
 import ProjectDetail from './pages/Projects/ProjectDetail/ProjectDetail'
@@ -16,8 +15,7 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/Anfragen" element={<Inquiry />} />
-      <Route path="/EigeneArbeiten" element={<Projects />} />
-      <Route path="/Auftraege" element={<Jobs />} />
+      <Route path="/Arbeiten" element={<Projects />} />
       <Route path="/UeberMich" element={<AboutMe />} />
       <Route path="/Arbeit" element={<ProjectDetail />} />
       <Route path="/Auftrag" element={<Slideshow />} />

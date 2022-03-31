@@ -1,4 +1,4 @@
-import './Inquiry.css';
+import './Inquiry.scss';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
@@ -7,7 +7,7 @@ const Inquiry = () => {
         <div className="inquiry">
             <Header />
             <div className="inquiry-body">
-                <h3>Lass uns zusammenarbeiten!</h3>
+                <h4>Lass uns zusammenarbeiten!</h4>
                 <p>
                     Ich bin Karl und find arbeiten ganz klasse und neue Projekte find ich auch super.
                     <br />Hast du Interesse an einer Zusammenarbeit? Dann trete gerne in Kontakt mit mir :)

@@ -1,0 +1,43 @@
+.imageList {
+  margin: auto;
+  text-align: left;
+}
+
+.subtitle2 {
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: 0.1px;
+  color: #808080;
+}
+
+.projectTitle {
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.projectNameDetail {
+  margin-bottom: 5px;
+}
+
+@media (min-width: 600px) {
+  .imageList {
+    width: 60%;
+  }
+
+  .projectTitle {
+    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-left: 0;
+  }
+
+  .images-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .imageDetail {
+    width: 100%;
+    object-fit: contain;
+    padding-bottom: 10px;
+  }
+}
