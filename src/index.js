@@ -6,20 +6,29 @@ import Inquiry from './pages/Inquiry/Inquiry';
 import Projects from './pages/Projects/Projects';
 import AboutMe from './pages/AboutMe/AboutMe';
 import Slideshow from './components/UI/Slideshow';
-import ProjectDetail from './pages/Projects/ProjectDetail/ProjectDetail'
+import ProjectDetail from './pages/Projects/ProjectDetail/ProjectDetail';
+import Datenschutz from './pages/Datenschutz/Datenschutz';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 ReactDOM.render(
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/Anfragen" element={<Inquiry />} />
-      <Route path="/Arbeiten" element={<Projects />} />
-      <Route path="/UeberMich" element={<AboutMe />} />
-      <Route path="/Arbeit" element={<ProjectDetail />} />
-      <Route path="/Auftrag" element={<Slideshow />} />
-    </Routes>
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/Anfragen" element={<Inquiry />} />
+        <Route path="/Arbeiten" element={<Projects />} />
+        <Route path="/UeberMich" element={<AboutMe />} />
+        <Route path="/Arbeit" element={<ProjectDetail />} />
+        <Route path="/Auftrag" element={<Slideshow />} />
+        <Route path="/Datenschutz" element={<Datenschutz />} />
+      </Routes>
+      <Footer />
+    </div>
   </BrowserRouter>
   ,
   document.getElementById('root')

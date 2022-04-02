@@ -1,5 +1,4 @@
 import './AboutMe.scss';
-import Header from '../../components/Header/Header';
 import Karlos from '../../assets/karlos.jpg';
 import Karlos_Square from '../../assets/karl_square.jpg';
 import Eberhart from '../../assets/Logos/Eberhart.png';
@@ -42,7 +41,6 @@ const AboutMe = () => {
 
     return (
         <div className="AboutMe">
-            <Header />
             <div className="aboutMe-container">
                 <div className="aboutMe-content">
                     <div className="imageKarl-desktop">

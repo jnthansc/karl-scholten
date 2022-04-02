@@ -1,11 +1,8 @@
 import './Inquiry.scss';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 
 const Inquiry = () => {
     return (
         <div className="inquiry">
-            <Header />
             <div className="inquiry-body">
                 <h4>Lass uns zusammenarbeiten!</h4>
                 <p>
@@ -24,7 +21,6 @@ const Inquiry = () => {
                 </div>
 
             </div>
-            <Footer />
         </div>
     );
 }

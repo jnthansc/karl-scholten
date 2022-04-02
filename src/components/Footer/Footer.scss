@@ -1,9 +1,17 @@
 .footer {
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
     width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 1vh;
-    padding-left: 5vh;
-    padding-right: 5vh;
-    margin-top: auto;
+}
+
+.mustHaves {
+    list-style: none;
+}
+
+.informationPrivacyLink {
+    text-decoration: none;
+    color: black;
+    font-size: small;
 }

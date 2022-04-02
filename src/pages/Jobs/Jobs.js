@@ -1,6 +1,4 @@
 import './Jobs.scss';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import Collage from '../../components/UI/Collage';
 import img1 from '../../assets/Serien_Karl/:aqua/Neueswasser.jpg';
 import img2 from '../../assets/Serien_Karl/:aqua/Unterwasser.jpg';
@@ -20,9 +18,7 @@ const Jobs = () => {
 
     return (
         <div className="jobs">
-            <Header/>
             <Collage images={jobsImages}/>
-            <Footer/>
         </div>
     );
 }
