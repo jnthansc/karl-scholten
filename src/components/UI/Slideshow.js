@@ -38,6 +38,7 @@ const Slideshow = (props) => {
                                     <div className="projectNameText">
                                         {ProjectImages[0].projects[index][1].name}
                                     </div>
+                                    TEST
                                 </div> */}
                             </Link>
                         )}
