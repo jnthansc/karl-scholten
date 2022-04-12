@@ -9,11 +9,15 @@
     width: 80%;
     margin: 0 auto;
     box-sizing: border-box;
-    text-align: left;
+    text-align: center;
 }
 
 .inquiry-details-info h5 {
     margin-bottom: 1rem;
+}
+
+.contactName {
+    margin-bottom: 1vh;
 }
 
 @media (min-width: 600px) {

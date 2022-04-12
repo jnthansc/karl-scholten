@@ -1,10 +1,10 @@
-import messe1 from '../assets/Serien_Karl/Messe/3.jpg';
-import messe2 from '../assets/Serien_Karl/Messe/6.jpg';
-import messe3 from '../assets/Serien_Karl/Messe/DSCF9241.jpg';
-import messe4 from '../assets/Serien_Karl/Messe/DSCF9265.jpg';
-import messe5 from '../assets/Serien_Karl/Messe/Messe_Pforzheim_2.jpg';
-import messe6 from '../assets/Serien_Karl/Messe/Messe_Pforzheim_5.jpg';
-import messe7 from '../assets/Serien_Karl/Messe/Messe_Pforzheim.jpg';
+import messe1 from '../assets/Serien_Karl/Messe/1.jpg';
+import messe2 from '../assets/Serien_Karl/Messe/2.jpg';
+import messe3 from '../assets/Serien_Karl/Messe/3.jpg';
+import messe4 from '../assets/Serien_Karl/Messe/4.jpg';
+import messe5 from '../assets/Serien_Karl/Messe/5.jpg';
+import messe6 from '../assets/Serien_Karl/Messe/6.jpg';
+import messe7 from '../assets/Serien_Karl/Messe/7.jpg';
 
 
 export const Messe = [
@@ -16,7 +16,7 @@ export const Messe = [
         name:
             'Messe',
         year:
-            2022,
+            2018,
     },
 ];
 export default Messe;

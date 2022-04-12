@@ -7,9 +7,17 @@ const Footer = () => {
     return (
         <footer className="footer">
             <ul className="mustHaves">
-                <li className="iformationPrivacy">
-                    <Link className="informationPrivacyLink" to="/Datenschutz">
+                <li className="informationPrivacy">
+                    <Link className="necessaryLink" to="/Datenschutz">
                         Datenschutz
+                    </Link>
+                </li>
+                <li>
+                    |
+                </li>
+                <li>
+                    <Link className="necessaryLink" to="/Impressum">
+                        Impressum
                     </Link>
                 </li>
             </ul>

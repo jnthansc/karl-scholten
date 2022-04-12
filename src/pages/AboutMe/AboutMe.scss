@@ -53,6 +53,10 @@
     padding-bottom: 1rem;
 }
 
+.customers-container {
+    margin-top: 3vh;
+}
+
 .customer-list {
     list-style: none;
     display: flex;
@@ -84,6 +88,7 @@
 
     .imageKarl-desktop {
         display: block;
+        height: 100vh;
     }
 
     .imageKarl-mobile {
@@ -125,6 +130,6 @@
     }
 
     .customerImage {
-        max-height: 5vh;
+        max-height: 6vh;
     }
 }

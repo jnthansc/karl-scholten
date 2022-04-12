@@ -8,6 +8,7 @@ import AboutMe from './pages/AboutMe/AboutMe';
 import Slideshow from './components/UI/Slideshow';
 import ProjectDetail from './pages/Projects/ProjectDetail/ProjectDetail';
 import Datenschutz from './pages/Datenschutz/Datenschutz';
+import Impressum from './pages/Impressum/Impressum';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
@@ -20,12 +21,13 @@ ReactDOM.render(
       <Header />
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/Anfragen" element={<Inquiry />} />
+        <Route path="/Kontakt" element={<Inquiry />} />
         <Route path="/Arbeiten" element={<Projects />} />
         <Route path="/UeberMich" element={<AboutMe />} />
         <Route path="/Arbeit" element={<ProjectDetail />} />
         <Route path="/Auftrag" element={<Slideshow />} />
         <Route path="/Datenschutz" element={<Datenschutz />} />
+        <Route path="/Impressum" element={<Impressum />} />
       </Routes>
       <Footer />
     </div>

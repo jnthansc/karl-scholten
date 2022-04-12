@@ -1,9 +1,9 @@
-import marokko1 from '../assets/Serien_Karl/Marokko/2.jpg';
-import marokko2 from '../assets/Serien_Karl/Marokko/DSC03902.jpg';
-import marokko3 from '../assets/Serien_Karl/Marokko/Mann_Pause.jpg';
-import marokko4 from '../assets/Serien_Karl/Marokko/mannmeer1.jpg';
-import marokko5 from '../assets/Serien_Karl/Marokko/heimweg.jpg';
-import marokko6 from '../assets/Serien_Karl/Marokko/Stadtleer.jpg';
+import marokko1 from '../assets/Serien_Karl/Marokko/1.jpg';
+import marokko2 from '../assets/Serien_Karl/Marokko/2.jpg';
+import marokko3 from '../assets/Serien_Karl/Marokko/3.jpg';
+import marokko4 from '../assets/Serien_Karl/Marokko/4.jpg';
+import marokko5 from '../assets/Serien_Karl/Marokko/5.jpg';
+import marokko6 from '../assets/Serien_Karl/Marokko/6.jpg';
 
 export const Marokko = [
     {
@@ -14,7 +14,7 @@ export const Marokko = [
         name:
             'Marokko',
         year:
-            2022,
+            2017,
     },
 ];
 
