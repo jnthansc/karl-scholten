@@ -1,11 +1,30 @@
-@media (min-width: 600px) {
-  .App {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-  }
+.slideshow-container {
+  display: none;
+}
 
-  .app-content {
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.frontPagePicture {
+  height: 100vh;
+  width: 100vw;
+}
+
+.frontImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 600px) {
+  .frontPagePicture {
+    display: none;
+  }
+  
+  .slideshow-container {
     display: flex;
     position: relative;
     width: 60%;

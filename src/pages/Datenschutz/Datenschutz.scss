@@ -1,8 +1,25 @@
-.datenschutz-container{
-    width: 60%;
-    margin: auto;
+.datenschutz {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.headingInformationPrivacy {
-    font-size: 5rem;
+.datenschutz-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+@media (min-width: 600px) {
+    .datenschutz-container {
+        width: 60%;
+        margin: auto;
+    }
+
+    .headingInformationPrivacy {
+        font-size: 5rem;
+    }
 }

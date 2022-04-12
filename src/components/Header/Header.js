@@ -27,6 +27,23 @@ function Header() {
           <Link to="/Kontakt" className="header-navbar-link">KONTAKT</Link>
           <Link to="/Arbeiten" className="header-navbar-link">ARBEITEN</Link>
           <Link to="/UeberMich" className="header-navbar-link">ÜBER MICH</Link>
+          <div className="mustHaveLinks">
+            <ul className="mustHaves">
+              <li className="informationPrivacy">
+                <Link className="necessaryLink" to="/Datenschutz">
+                  Datenschutz
+                    </Link>
+              </li>
+              <li>
+                |
+                </li>
+              <li>
+                <Link className="necessaryLink" to="/Impressum">
+                  Impressum
+                    </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <header className="desktop-header">
