@@ -24,13 +24,13 @@ function Header() {
         </Link>
         <div className={navOpen === true ? 'sidenav active' : 'sidenav'}>
           <IoIosClose className="closebtn" onClick={closeNav}></IoIosClose>
-          <Link to="/Kontakt" className="header-navbar-link">KONTAKT</Link>
-          <Link to="/Arbeiten" className="header-navbar-link">ARBEITEN</Link>
-          <Link to="/UeberMich" className="header-navbar-link">ÜBER MICH</Link>
+          <Link to="/Kontakt" className="header-navbar-link" onClick={closeNav}>KONTAKT</Link>
+          <Link to="/Arbeiten" className="header-navbar-link" onClick={closeNav}>ARBEITEN</Link>
+          <Link to="/UeberMich" className="header-navbar-link" onClick={closeNav}>ÜBER MICH</Link>
           <div className="mustHaveLinks">
             <ul className="mustHaves">
               <li className="informationPrivacy">
-                <Link className="necessaryLink" to="/Datenschutz">
+                <Link className="necessaryLink" to="/Datenschutz" onClick={closeNav}>
                   Datenschutz
                     </Link>
               </li>
@@ -38,7 +38,7 @@ function Header() {
                 |
                 </li>
               <li>
-                <Link className="necessaryLink" to="/Impressum">
+                <Link className="necessaryLink" to="/Impressum" onClick={closeNav}>
                   Impressum
                     </Link>
               </li>

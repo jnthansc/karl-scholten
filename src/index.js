@@ -14,11 +14,13 @@ import Footer from './components/Footer/Footer';
 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ScrollToTop from './components/UI/ScrollToTop';
 
 ReactDOM.render(
   <BrowserRouter>
     <div>
       <Header />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/Kontakt" element={<Inquiry />} />
