@@ -64,7 +64,7 @@ const AboutMe = () => {
                         So gestalte ich nicht nur Auftragsarbeiten, sondern auch eigene Fotoserien und Ausstellungen zu Themen, die mir am Herzen liegen.
                         Ich biete Studio als auch on Location Foto- und Videoarbeiten an.
                         Dabei steht für mich im Fokus, eine passende Ästhetik und Umgebung für das dargestellte Objekt zu gestalten und so eine individuelle und wiedererkennbare Bildsprache zu erschaffen.
-                        <br /> Um meine Erfahrungen zu vertiefen, studiere ich neben meiner Selbständigkeit Fotodesign an der Hochschule München. 
+                        <br /> Um meine Erfahrungen zu vertiefen, studiere ich neben meiner Selbständigkeit Fotodesign an der Hochschule München.
                         <br />Wenn du auf der Suche nach einem kreativen und zuverlässigen Foto- oder Videografen bist, dann meld dich bei mir.
                         Ich helfe dir auch gerne ein Konzept für Fotos oder Videos zu erstellen.
                         Ich freue mich auf eine erfolgreiche Zusammenarbeit.
@@ -81,7 +81,6 @@ const AboutMe = () => {
                                         Finalist „New Talent Award powered by Canon“ <br />
                                         Kreativpreis „Kultur im Schloss e.V.“
                                     </p>
-
                                 </div>
                                 <div className="awards-line">
                                     <p className="awardsYear">2019</p>
@@ -93,7 +92,7 @@ const AboutMe = () => {
                                 <div className="awards-line">
                                     <p className="awardsYear">2018</p>
                                     <p className="awardsOfYear">
-                                    1.Platz „Lions Young Ambassador“ Baden-Württemberg <br />
+                                        1.Platz „Lions Young Ambassador“ Baden-Württemberg <br />
                                     3. Platz „Lions Young Ambassador“ Deutschland <br />
                                     Lobende Erwähnung „Deutsche Gesellschaft für Photographie e.V.“
                                     </p>
