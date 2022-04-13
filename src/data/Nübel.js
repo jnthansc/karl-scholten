@@ -9,12 +9,13 @@ import n7 from '../assets/Serien_Karl/Nübel/7.jpg';
 export const Nübel = [
     {
         images:
-            [n1, n2, n3, n4, n5, n6, n7, ]
+            [n1, n2, n3, n4, n5, n6, n7,]
     },
     {
         name:
             'Nübel',
-
+        kind:
+            'Commercial',
         year:
             2021,
     },

@@ -12,7 +12,10 @@ export const Benz = [
     },
     {
         name:
-            'Mercedes Benz',
+            'Mercedes-Benz',
+
+        kind: 
+            'Commercial',
 
         year:
             2022,

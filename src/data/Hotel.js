@@ -14,6 +14,8 @@ export const Hotel = [
     {
         name:
             'Hotel',
+        kind:
+            'Passion',
         year:
             2021,
     },

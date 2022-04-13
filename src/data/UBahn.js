@@ -12,6 +12,8 @@ export const UBahn = [
     {
         name:
             'Metro',
+        kind:
+            'Passion',
         year:
             2021,
     },

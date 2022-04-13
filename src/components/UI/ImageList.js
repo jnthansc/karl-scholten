@@ -8,7 +8,7 @@ const SlideshowDetail = (props) => {
             <div className="projectTitle">
                 <h6 className="projectNameDetail">{props.project[1].name}</h6>
                 <div className="subtitle2">
-                    {props.project[1].year}
+                    {props.project[1].kind} | {props.project[1].year}
                 </div>
             </div>
             <div className="images-container">

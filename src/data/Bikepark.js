@@ -7,11 +7,14 @@ import b5 from '../assets/Serien_Karl/Bikepark/5.jpg';
 export const Bikepark = [
     {
         images:
-            [b1, b2, b3, b4, b5, ]
+            [b1, b2, b3, b4, b5,]
     },
     {
         name:
-            'Bikepark',
+            'Adventure Bikepark',
+
+        kind:
+            'Commercial',
 
         year:
             2021,

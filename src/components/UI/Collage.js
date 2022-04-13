@@ -2,7 +2,7 @@ import './Collage.scss';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ProjectImages from '../../data/ProjectImages';
-import { ImageList} from '@mui/material';
+import { ImageList } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const Collage = (props) => {
@@ -17,7 +17,10 @@ const Collage = (props) => {
                         <Link onClick={() => { ProjectImages[0].activeProjectIndex = index }} to="/Arbeit">
                             <img src={img} alt="" className="image imageHover" />
                             <div className="projectName">
-                                {ProjectImages[0].projects[index][1].name}
+                                {ProjectImages[0].projects[index][1].name} <br />
+                                <div className="projectKind">
+                                    {ProjectImages[0].projects[index][1].kind}
+                                </div>
                             </div>
                         </Link>
                     </div>

@@ -18,6 +18,8 @@ export const Schwarzwaldhof = [
     {
         name:
             'Schwarzwaldhof',
+        kind:
+            'Documentary',
         year:
             2020,
     },

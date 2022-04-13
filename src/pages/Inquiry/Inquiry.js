@@ -4,13 +4,13 @@ const Inquiry = () => {
     return (
         <div className="inquiry">
             <div className="inquiry-body">
-                <h4>Kontakt</h4>
+                <h4 className="inquiryHeadline">Kontakt</h4> <br />
                 <p>
                     <h5 className="contactName">Karl Scholten</h5> <br />
-                    Zieblandstraße 32 <br />
-                    80798 München <br />
-                    Tel.: +49 159 08165619 <br />
-                    E-Mail: karl-scholten@gmx.de <br />
+                    Zieblandstraße 32 <br /> <br />
+                    80798 München <br /> <br />
+                    Tel.: +49 159 08165619 <br /> <br />
+                    E-Mail: karl-scholten@gmx.de <br /> <br />
                     Instagram: <a href="https://www.instagram.com/karl_scholten/">@karl_scholten</a>
                 </p>
                 {/* <div className="inquiry-details">

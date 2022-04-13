@@ -15,6 +15,9 @@ export const Aqua = [
         name:
             'Aqua',
 
+        kind:
+            'Passion',
+
         year:
             2018,
     },

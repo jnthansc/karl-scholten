@@ -15,6 +15,8 @@ export const Messe = [
     {
         name:
             'Messe',
+        kind:
+            'Documentary',
         year:
             2018,
     },

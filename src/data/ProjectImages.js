@@ -8,7 +8,7 @@ import sw1 from '../assets/Serien_Karl/Schwarzwaldhof/1.jpg';
 import u1 from '../assets/Serien_Karl/Ubahn/1.JPG';
 import n1 from '../assets/Serien_Karl/Nübel/1.jpg';
 import b1 from '../assets/Serien_Karl/Bikepark/1.jpg';
-import morof1 from '../assets/Serien_Karl/Morof/1.jpg';
+import morof1 from '../assets/Serien_Karl/Morof/4.jpg';
 import benz1 from '../assets/Serien_Karl/MercedesBenz/1.jpg';
 
 import Aqua from '../data/Aqua';
@@ -37,10 +37,10 @@ export const ProjectImages = [
                 marokko1,
                 b1,
                 n1,
-                hotel1,
+                u1,
                 messe1,
                 sw1,
-                u1,
+                hotel1,
             ],
         projects: [
             Benz,
@@ -51,10 +51,10 @@ export const ProjectImages = [
             Marokko,
             Bikepark,
             Nübel,
-            Hotel,
+            UBahn,
             Messe,
             Schwarzwaldhof,
-            UBahn,
+            Hotel,
         ],
     },
 ];

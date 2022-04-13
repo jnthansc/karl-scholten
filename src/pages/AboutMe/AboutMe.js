@@ -59,15 +59,16 @@ const AboutMe = () => {
                         <h5>Karl Scholten</h5>
                         <div className="subtitle">Fotograf</div>
                         <p className="aboutMe-info">
+
                             Hi, ich bin Karl. <br />
-                        Für mich ist die Fotografie nicht nur die Grundlage meines Lebensunterhalts, sondern auch die Möglichkeit mich künstlerisch auszudrücken.
-                        So gestalte ich nicht nur Auftragsarbeiten, sondern auch eigene Fotoserien und Ausstellungen zu Themen, die mir am Herzen liegen.
-                        Ich biete Studio als auch on Location Foto- und Videoarbeiten an.
-                        Dabei steht für mich im Fokus, eine passende Ästhetik und Umgebung für das dargestellte Objekt zu gestalten und so eine individuelle und wiedererkennbare Bildsprache zu erschaffen.
-                        <br /> Um meine Erfahrungen zu vertiefen, studiere ich neben meiner Selbständigkeit Fotodesign an der Hochschule München.
-                        <br />Wenn du auf der Suche nach einem kreativen und zuverlässigen Foto- oder Videografen bist, dann meld dich bei mir.
-                        Ich helfe dir auch gerne ein Konzept für Fotos oder Videos zu erstellen.
-                        Ich freue mich auf eine erfolgreiche Zusammenarbeit.
+                            Für mich ist die Fotografie nicht nur eine große Leidenschaft, sondern auch die Möglichkeit mich künstlerisch auszudrücken.
+                            Ich gestalte eigene Fotoserien und Ausstellungen zu Themen, die mir am Herzen liegen. Zudem biete ich auch Auftragsarbeiten an.
+                            Hierbei ist für mich besonders wichtig, eine passende Bildästhetik und Umgebung für das Dargestellte zu kreieren und so eine individuelle
+                             und wiedererkennbare Bildsprache zu erschaffen. <br />
+                            Um meine Erfahrungen zu vertiefen, studiere ich neben meiner Selbständigkeit Fotodesign an der Hochschule München. <br />
+                            Wenn du auf der Suche nach einem kreativen und zuverlässigen Foto- oder Videografen bist, dann meld dich bei mir.
+                            Ich biete Studio als auch on Location <br /> Foto- und Videoarbeiten an und helfe dir auch gerne ein Konzept für deine Kampagnen zu erstellen.
+                             Ich freue mich auf eine erfolgreiche Zusammenarbeit!
                         </p>
                         <div className="awards-container">
                             <h5>AUSZEICHNUNGEN UND PREISE</h5>
