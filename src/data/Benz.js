@@ -8,7 +8,7 @@ import benz6 from '../assets/Serien_Karl/MercedesBenz/6.jpg';
 export const Benz = [
     {
         images:
-            [benz1, /*benz2, benz3, benz4, benz5, benz6,*/ ]
+            [benz1, benz2, benz3, benz4, benz5, benz6, ]
     },
     {
         name:
