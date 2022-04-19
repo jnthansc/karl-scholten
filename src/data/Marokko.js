@@ -1,9 +1,9 @@
-import marokko1 from '../assets/Serien_Karl/Marokko/1.jpg';
-import marokko2 from '../assets/Serien_Karl/Marokko/2.jpg';
-import marokko3 from '../assets/Serien_Karl/Marokko/3.jpg';
-import marokko4 from '../assets/Serien_Karl/Marokko/4.jpg';
-import marokko5 from '../assets/Serien_Karl/Marokko/5.jpg';
-import marokko6 from '../assets/Serien_Karl/Marokko/6.jpg';
+import marokko1 from '../assets/Serien_Karl/Marokko/1.png';
+import marokko2 from '../assets/Serien_Karl/Marokko/2.png';
+import marokko3 from '../assets/Serien_Karl/Marokko/3.png';
+import marokko4 from '../assets/Serien_Karl/Marokko/4.png';
+import marokko5 from '../assets/Serien_Karl/Marokko/5.png';
+import marokko6 from '../assets/Serien_Karl/Marokko/6.png';
 
 export const Marokko = [
     {

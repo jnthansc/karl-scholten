@@ -1,8 +1,8 @@
 import b1 from '../assets/Serien_Karl/Bikepark/1.jpg';
-import b2 from '../assets/Serien_Karl/Bikepark/2.jpg';
-import b3 from '../assets/Serien_Karl/Bikepark/3.jpg';
-import b4 from '../assets/Serien_Karl/Bikepark/4.jpg';
-import b5 from '../assets/Serien_Karl/Bikepark/5.jpg';
+import b2 from '../assets/Serien_Karl/Bikepark/2.png';
+import b3 from '../assets/Serien_Karl/Bikepark/3.png';
+import b4 from '../assets/Serien_Karl/Bikepark/4.png';
+import b5 from '../assets/Serien_Karl/Bikepark/5.png';
 
 export const Bikepark = [
     {

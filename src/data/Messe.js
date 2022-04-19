@@ -1,10 +1,10 @@
-import messe1 from '../assets/Serien_Karl/Messe/1.jpg';
+import messe1 from '../assets/Serien_Karl/Messe/1.png';
 import messe2 from '../assets/Serien_Karl/Messe/2.jpg';
 import messe3 from '../assets/Serien_Karl/Messe/3.jpg';
-import messe4 from '../assets/Serien_Karl/Messe/4.jpg';
-import messe5 from '../assets/Serien_Karl/Messe/5.jpg';
-import messe6 from '../assets/Serien_Karl/Messe/6.jpg';
-import messe7 from '../assets/Serien_Karl/Messe/7.jpg';
+import messe4 from '../assets/Serien_Karl/Messe/4.png';
+import messe5 from '../assets/Serien_Karl/Messe/5.png';
+import messe6 from '../assets/Serien_Karl/Messe/6.png';
+import messe7 from '../assets/Serien_Karl/Messe/7.png';
 
 
 export const Messe = [
