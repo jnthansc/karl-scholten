@@ -1,6 +1,6 @@
 import './AboutMe.scss';
-import Karlos from '../../assets/Website.jpgneu.jpg';
-import Karlos_Square from '../../assets/Website.jpg';
+import Karlos from '../../assets/Website.png';
+import Karlos_Square from '../../assets/WebsiteMobile.png';
 import Eberhart from '../../assets/Logos/Eberhart.png';
 import BikePark from '../../assets/Logos/Bikepark sw.png';
 import Schindele from '../../assets/Logos/Schindele sw.png';
