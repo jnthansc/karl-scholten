@@ -11,7 +11,8 @@ const Inquiry = () => {
                     80798 München <br /> <br />
                     Tel.: +49 159 08165619 <br /> <br />
                     E-Mail: karl-scholten@gmx.de <br /> <br />
-                    Instagram: <a href="https://www.instagram.com/karl_scholten/">@karl_scholten</a>
+                    Instagram: <a className="inquiryLink" href="https://www.instagram.com/karl_scholten/">@karl_scholten</a> <br /> <br />
+                    LinkedIn: <a className="inquiryLink" href="https://www.linkedin.com/in/karl-scholten-10a721166">Karl Scholten</a>
                 </p>
                 {/* <div className="inquiry-details">
                     <div className="inquiry-details-info">

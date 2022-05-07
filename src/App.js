@@ -12,7 +12,7 @@ function App() {
           <Slideshow images={ProjectImages[0].images} />
         </div>
         <div className="frontPagePicture">
-          <img src={benz1} className="frontImg"/>
+          <img src={benz1} className="frontImg" alt="MercedesBenz"/>
         </div>
       </div>
     </div>

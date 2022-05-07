@@ -10,6 +10,8 @@ import n1 from '../assets/Serien_Karl/Nübel/1.png';
 import b1 from '../assets/Serien_Karl/Bikepark/1.jpg';
 import morof1 from '../assets/Serien_Karl/Morof/4.png';
 import benz1 from '../assets/Serien_Karl/MercedesBenz/1.jpg';
+import busi1 from '../assets/Serien_Karl/Businessportraits/1.png';
+import refa1 from '../assets/Serien_Karl/Recruitingfabrik/1.png';
 
 import Aqua from '../data/Aqua';
 import Hotel from '../data/Hotel';
@@ -23,6 +25,8 @@ import Nübel from '../data/Nübel';
 import Bikepark from '../data/Bikepark';
 import Morof from '../data/Morof';
 import Benz from '../data/Benz';
+import Businessportraits from '../data/Businessportraits';
+import Recruitingfabrik from '../data/Recruitingfabrik';
 
 export const ProjectImages = [
     {
@@ -30,6 +34,8 @@ export const ProjectImages = [
         images:
             [
                 benz1,
+                busi1,
+                refa1,
                 jona1,
                 prod1,
                 morof1,
@@ -44,6 +50,8 @@ export const ProjectImages = [
             ],
         projects: [
             Benz,
+            Businessportraits,
+            Recruitingfabrik,
             Jona,
             Produktaufnahmen,
             Morof,

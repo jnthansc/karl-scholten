@@ -80,7 +80,8 @@ const AboutMe = () => {
                                         2. Platz „16. Fotoherbst Schömberg“  U21 <br />
                                         2. Platz Fotokoch Fotowettbewerb Thema „Wandel“ <br />
                                         Finalist „New Talent Award powered by Canon“ <br />
-                                        Kreativpreis „Kultur im Schloss e.V.“
+                                        Kreativpreis „Kultur im Schloss e.V.“ <br />
+                                        32. Platz "Blende Award" national
                                     </p>
                                 </div>
                                 <div className="awards-line">
@@ -113,6 +114,17 @@ const AboutMe = () => {
                                     </p>
                                 </div>
                             </div>
+                        </div>
+                        <div className="press-container">
+                            <h5 className="press-headline">PRESSE</h5>
+                            <div className="press-link-spacer"><a className="press-link" href="https://www.eye-land.org/fotograf.htm?id=9">Eye-Land</a> </div>
+                            <div className="press-link-spacer"><a className="press-link" href="https://www.pz-news.de/pforzheim_artikel,-Karl-Scholten-hat-mit-16-bereits-eine-eigene-Fotoausstellung-
+                                im-Hof-des-Kulturhauses-Osterfeld-_arid,1112103.html">Kulturhaus Osterfeld</a></div>
+                            <div className="press-link-spacer"><a className="press-link" href="https://www.pz-nightlife.de/home_artikel,-Starke-Fotomomente-in-Fluechtlingscontainern-_arid,1159590.
+                                html">Pforzheimer Zeitung</a></div>
+                            <div className="press-link-spacer"><a className="press-link" href="https://www.pz-news.de/pforzheim_artikel,-Filmprojekt-gibt-Einblicke-in-verschiedene-Lebensgeschich-
+                                ten-_arid,1171394.html">Pforzheimer Zeitung</a></div>
+                            <div className="press-link-spacer"><a className="press-link" href="https://www.jugendfotopreis.de/foto.html?id=1529">Jugendfotopreis</a></div>
                         </div>
                         <div className="customers-container">
                             <h5 className="customer-headline">KUNDEN</h5>
