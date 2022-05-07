@@ -4,12 +4,11 @@ import refa3 from '../assets/Serien_Karl/Recruitingfabrik/3.png';
 import refa4 from '../assets/Serien_Karl/Recruitingfabrik/4.png';
 import refa5 from '../assets/Serien_Karl/Recruitingfabrik/5.png';
 import refa6 from '../assets/Serien_Karl/Recruitingfabrik/6.png';
-import refa7 from '../assets/Serien_Karl/Recruitingfabrik/7.png';
 
 export const Recruitingfabrik = [
     {
         images:
-            [refa1, refa2, refa3, refa4, refa5, refa6, refa7, ]
+            [refa1, refa2, refa3, refa4, refa5, refa6, ]
     },
     {
         name:
