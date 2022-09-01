@@ -1,49 +1,10 @@
 import './AboutMe.scss';
+import React from 'react';
 import Karlos from '../../assets/KarlFrontalLong.png';
 import Karlos_Square from '../../assets/KarlFrontalSquare.png';
-import Eberhart from '../../assets/Logos/Eberhart.png';
-import BikePark from '../../assets/Logos/Bikepark sw.png';
-import Schindele from '../../assets/Logos/Schindele sw.png';
-import Braun from '../../assets/Logos/Braun sw.png';
-import MRUT from '../../assets/Logos/MRUT sw.png';
-import Prime from '../../assets/Logos/Prime sw.png';
-import ElektroWalz from '../../assets/Logos/Elektro-walz sw.png';
-import Heyn from '../../assets/Logos/764.png';
-import Katz from '../../assets/Logos/Katz sw.png';
-import Morof from '../../assets/Logos/Morof sw.png';
-import Nübel from '../../assets/Logos/Nübel sw.png';
-import OldtimerWerk from '../../assets/Logos/OldtimerWerk14_200x200.png';
-import Pfeffer from '../../assets/Logos/Pfeffer sw.png';
-import RaphaelSchule from '../../assets/Logos/Raphael-Schule sw.png';
-import Visomedia from '../../assets/Logos/Visomedia sw.png';
-import Weitblick from '../../assets/Logos/Weitblick sw.png';
-import Recrouting from '../../assets/Logos/high res file-01.png';
-import Mercedes from '../../assets/Logos/mercedes-benz-logo-2013.png';
-import ScholtenBergmann from '../../assets/Logos/bb.png';
+import Kunden from '../../assets/Kunden.png';
 
 const AboutMe = () => {
-
-    const customerLogos = [
-        Mercedes,
-        Morof,
-        Schindele,
-        Braun,
-        Eberhart,
-        BikePark,
-        MRUT,
-        Prime,
-        ElektroWalz,
-        Heyn,
-        Katz,
-        Visomedia,
-        OldtimerWerk,
-        Pfeffer,
-        RaphaelSchule,
-        Recrouting,
-        Weitblick,
-        Nübel,
-        ScholtenBergmann,
-    ]
 
     return (
         <div className="AboutMe">
@@ -128,11 +89,7 @@ const AboutMe = () => {
                         </div>
                         <div className="customers-container">
                             <h5 className="customer-headline">KUNDEN</h5>
-                            <ul className="customer-list">
-                                {customerLogos.map((img, index) => {
-                                    return <li key={img + index}><img src={img} alt="" className="customerImage" /></li>;
-                                })}
-                            </ul>
+                            <img src={Kunden} alt=""/>
                         </div>
                     </div>
 

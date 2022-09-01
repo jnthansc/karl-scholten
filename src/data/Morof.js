@@ -15,10 +15,18 @@ export const Morof = [
     {
         name:
             'Morof',
+            
         kind:
             'Commercial',
+
         year:
             2021,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 

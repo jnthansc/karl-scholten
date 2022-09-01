@@ -13,10 +13,18 @@ export const Marokko = [
     {
         name:
             'Marokko',
+
         kind:
             'Documentary',
+
         year:
             2017,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 

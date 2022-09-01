@@ -19,6 +19,12 @@ export const Benz = [
 
         year:
             2022,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 

@@ -20,6 +20,12 @@ export const Aqua = [
 
         year:
             2018,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 

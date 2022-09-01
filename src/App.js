@@ -2,6 +2,7 @@ import './App.scss';
 import Slideshow from './components/UI/Slideshow';
 import ProjectImages from './data/ProjectImages';
 import benz1 from './assets/Serien_Karl/MercedesBenz/1.jpg';
+import React from 'react';
 
 function App() {
 

@@ -12,6 +12,15 @@ import morof1 from '../assets/Serien_Karl/Morof/4.png';
 import benz1 from '../assets/Serien_Karl/MercedesBenz/1.jpg';
 import busi1 from '../assets/Serien_Karl/Businessportraits/1.png';
 import refa1 from '../assets/Serien_Karl/Recruitingfabrik/1.png';
+import anywhere1 from '../assets/Serien_Karl/Anywhere to Nowhere/1.png';
+import btsM_1 from '../assets/Serien_Karl/Bts Mercedes/cover.png';
+import ecomake_1 from '../assets/Serien_Karl/Ecomake/1.png';
+import fall_1 from '../assets/Serien_Karl/Fall/cover.png';
+import gito_1 from '../assets/Serien_Karl/Garments in the ocean/1.png';
+import lotta_1 from '../assets/Serien_Karl/Lotta/1.png';
+import maMa_1 from '../assets/Serien_Karl/Marika Magazin/1.png';
+import scarf_1 from '../assets/Serien_Karl/Scarf/1.png';
+import validAttitude_1 from '../assets/Serien_Karl/Valid Attitude/1.png';
 
 import Aqua from '../data/Aqua';
 import Hotel from '../data/Hotel';
@@ -27,6 +36,15 @@ import Morof from '../data/Morof';
 import Benz from '../data/Benz';
 import Businessportraits from '../data/Businessportraits';
 import Recruitingfabrik from '../data/Recruitingfabrik';
+import Anywhere from '../data/AnywhereToNowhere';
+import BtsM from '../data/BtsMercedes';
+import Ecomake from '../data/Ecomake';
+import Fall from '../data/Fall';
+import Garments from '../data/GarmentsInTheOcean';
+import Lotta from '../data/Lotta';
+import Marika from '../data/MarikaMagazine';
+import Scarf from '../data/Scarf';
+import ValidAttitude from '../data/ValidAttitude';
 
 export const ProjectImages = [
     {
@@ -34,15 +52,24 @@ export const ProjectImages = [
         images:
             [
                 benz1,
-                busi1,
-                refa1,
+                anywhere1,
+                maMa_1,
+                fall_1,                
                 jona1,
-                prod1,
+                validAttitude_1,
+                gito_1,
+                scarf_1,
                 morof1,
+                ecomake_1,
+                busi1,
+                btsM_1,
+                refa1,
+                prod1,
+                lotta_1,
                 aqua1,
-                marokko1,
-                b1,
                 n1,
+                b1,
+                marokko1,
                 u1,
                 messe1,
                 sw1,
@@ -50,15 +77,24 @@ export const ProjectImages = [
             ],
         projects: [
             Benz,
-            Businessportraits,
-            Recruitingfabrik,
+            Anywhere,
+            Marika,
+            Fall,
             Jona,
-            Produktaufnahmen,
+            ValidAttitude,
+            Garments,
+            Scarf,
             Morof,
+            Ecomake,
+            Businessportraits,
+            BtsM,
+            Recruitingfabrik,
+            Produktaufnahmen,
+            Lotta,
             Aqua,
-            Marokko,
-            Bikepark,
             Nübel,
+            Bikepark,
+            Marokko,
             UBahn,
             Messe,
             Schwarzwaldhof,

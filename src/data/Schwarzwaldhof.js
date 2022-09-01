@@ -22,6 +22,12 @@ export const Schwarzwaldhof = [
             'Documentary',
         year:
             2020,
+        
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 export default Schwarzwaldhof;

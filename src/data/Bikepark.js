@@ -18,6 +18,12 @@ export const Bikepark = [
 
         year:
             2021,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 

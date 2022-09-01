@@ -1,4 +1,5 @@
 import './Impressum.scss';
+import React from 'react';
 
 const Impressum = () => {
     return (

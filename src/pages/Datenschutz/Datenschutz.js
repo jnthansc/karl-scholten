@@ -1,4 +1,5 @@
 import './Datenschutz.scss';
+import React from 'react';
 
 const Datenschutz = () => {
     return (

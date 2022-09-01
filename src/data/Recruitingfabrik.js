@@ -18,6 +18,12 @@ export const Recruitingfabrik = [
             'Commercial',
         year:
             2022,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 export default Recruitingfabrik;

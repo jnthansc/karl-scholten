@@ -19,6 +19,10 @@
   margin-bottom: 5px;
 }
 
+.desktopVideo {
+  display: none;
+}
+
 @media (min-width: 600px) {
   .imageList {
     width: 60%;
@@ -39,5 +43,13 @@
     width: 100%;
     object-fit: contain;
     padding-bottom: 10px;
+  }
+
+  .mobileVideo {
+    display: none;
+  }
+
+  .desktopVideo {
+    display: block;
   }
 }

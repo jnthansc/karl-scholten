@@ -29,10 +29,18 @@ export const Jona = [
     {
         name:
             'Herbst',
+
         kind:
             'Passion',
+
         year:
             2021,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 

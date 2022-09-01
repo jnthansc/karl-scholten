@@ -16,10 +16,18 @@ export const Businessportraits = [
     {
         name:
             'Businessportraits',
+            
         kind:
             'Commercial',
+
         year:
             2022,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 export default Businessportraits;

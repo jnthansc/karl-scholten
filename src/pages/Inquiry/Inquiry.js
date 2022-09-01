@@ -1,4 +1,5 @@
 import './Inquiry.scss';
+import React from 'react';
 
 const Inquiry = () => {
     return (

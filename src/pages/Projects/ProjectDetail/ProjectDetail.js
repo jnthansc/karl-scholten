@@ -1,5 +1,6 @@
 import './ProjectDetail.scss';
 
+import React from 'react';
 import ScrollArrow from '../../../components/UI/ScrollArrow';
 import ImageList from '../../../components/UI/ImageList';
 import ProjectImages from '../../../data/ProjectImages';

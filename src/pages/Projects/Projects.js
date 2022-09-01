@@ -1,3 +1,4 @@
+import React from 'react';
 import './Projects.scss';
 import ScrollArrow from '../../components/UI/ScrollArrow';
 import Collage from '../../components/UI/Collage';

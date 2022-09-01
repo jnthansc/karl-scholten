@@ -16,6 +16,12 @@ export const UBahn = [
             'Passion',
         year:
             2021,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 

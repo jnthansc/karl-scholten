@@ -18,6 +18,12 @@ export const Produktaufnahmen = [
             'Passion',
         year:
             2021,
+
+        credits:
+            '',
+
+        videoUrl:
+            '',
     },
 ];
 export default Produktaufnahmen;
