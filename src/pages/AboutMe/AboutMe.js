@@ -35,6 +35,13 @@ const AboutMe = () => {
                             <h5>AUSZEICHNUNGEN UND PREISE</h5>
                             <div className="awards">
                                 <div className="awards-line">
+                                    <p className="awardsYear">2022</p>
+                                    <p className="awardsOfYear">
+                                        17. Platz LWH Fotowettbewerb <br />
+                                        9. Platz FoFoFo Fotowettbewerb 
+                                    </p>
+                                </div>
+                                <div className="awards-line">
                                     <p className="awardsYear">2021</p>
                                     <p className="awardsOfYear">
                                         2. Platz „Blende Award“ regional <br />
