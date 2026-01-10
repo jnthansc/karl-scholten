@@ -1,0 +1,340 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import groq from 'groq';
+import {sanityClient, urlForImage} from '../lib/sanity';
+
+type ProjectCard = {
+  _id: string;
+  title: string;
+  slug: string;
+  coverImage?: {
+    alt?: string;
+    asset?: {
+      _id: string;
+      url: string;
+    };
+  };
+};
+
+const PROJECTS_QUERY = groq`*[
+    _type == "project" &&
+    defined(slug.current) &&
+    defined(coverImage.asset)
+  ]
+  | order(order asc, publishedAt desc, _createdAt desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    coverImage {
+      alt,
+      asset->{ _id, url }
+    }
+  }`;
+
+let projects: ProjectCard[] = [];
+try {
+  projects = await sanityClient.fetch<ProjectCard[]>(PROJECTS_QUERY);
+} catch {
+  projects = [];
+}
+projects = projects.filter((p) => Boolean(p.coverImage?.asset));
+---
+
+<BaseLayout title="Karl Scholten – Photographer">
+  {projects.length === 0 ? (
+    <p class="empty">No projects with cover images yet.</p>
+  ) : (
+    <div class="pageGrid">
+      <aside class="desktopNames" aria-label="Projects">
+        <ol class="desktopNamesList">
+          {projects.map((project, idx) => (
+            <li data-name-idx={idx}>{project.title}</li>
+          ))}
+        </ol>
+      </aside>
+      <div class="snapRoot" aria-label="Project covers">
+        {Array.from({length: 3}).map((_, copyIdx) =>
+          projects.map((project, idx) => (
+            <section
+              class={`slide ${copyIdx === 1 ? 'primary' : 'clone'}`}
+              data-idx={copyIdx * projects.length + idx}
+              data-original-idx={idx}
+              aria-hidden={copyIdx === 1 ? 'false' : 'true'}
+            >
+              <a class="coverLink" href={`/projects/${project.slug}/`} aria-label={`Open ${project.title}`}>
+                <img
+                  class="coverImg"
+                  src={urlForImage(project.coverImage).width(2200).quality(82).url()}
+                  alt={project.coverImage?.alt ?? project.title}
+                  loading={copyIdx === 1 && idx === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
+                <span class="coverLabel">{project.title}</span>
+              </a>
+            </section>
+          )),
+        )}
+      </div>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .empty {
+    margin: 16px 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .pageGrid {
+    display: block;
+  }
+
+  .desktopNames {
+    display: none;
+  }
+
+  /* Mobile-first snap layout */
+  .snapRoot {
+    display: block;
+    height: calc(124svh + var(--sat) + var(--sab));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 0;
+    background: #000;
+  }
+
+  .slide {
+    position: relative;
+    min-height: 124svh;
+    height: 124svh;
+    scroll-snap-align: start;
+    margin: 0;
+    background: #000;
+  }
+
+  .coverLink {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: calc(100% + var(--sat) + var(--sab) + var(--headerH));
+    margin-top: calc(-1 * (var(--sat) + var(--headerH)));
+    margin-bottom: calc(-1 * var(--sab));
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .coverImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+  }
+
+  .coverLabel {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px 12px;
+    background: color-mix(in srgb, var(--bg) 75%, transparent);
+    color: var(--fg);
+    font-size: 14px;
+    line-height: 1.3;
+    border-radius: 12px;
+  }
+
+  /* Larger screens: disable snap, allow natural flow if desired */
+  @media (min-width: 900px) {
+    .pageGrid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .desktopNames {
+      display: block;
+      position: sticky;
+      top: var(--headerH);
+      align-self: start;
+      grid-column: 1 / span 1;
+    padding: 8px 0;
+      font-size: 14px;
+      color: var(--muted);
+    height: calc(100vh - var(--headerH));
+    display: flex;
+    align-items: center;
+    }
+
+  .desktopNamesList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .desktopNamesList > li {
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+
+  .desktopNamesList > li.active {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+    .snapRoot {
+      grid-column: 2 / span 11;
+      height: 100vh;
+      scroll-snap-type: y mandatory;
+      overflow-y: auto;
+      background: #fff;
+    }
+
+    .slide {
+      min-height: 100vh;
+      height: 100vh;
+      margin: 0;
+      background: #fff;
+    }
+
+    .coverLink {
+      height: 100%;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 100px 0;
+      box-sizing: border-box;
+    }
+
+    .coverImg {
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .coverLabel {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('.snapRoot');
+    if (!root) return;
+
+    const slides = Array.from(root.querySelectorAll('.slide'));
+    if (!slides.length) return;
+
+    const copies = 3;
+    const totalHeight = () => root.scrollHeight / copies || 0;
+    let singleHeight = totalHeight();
+    const buffer = 120;
+    let adjusting = false;
+
+    const normalize = () => {
+      if (adjusting || !singleHeight) return;
+      const st = root.scrollTop;
+      if (st <= buffer) {
+        adjusting = true;
+        const restore = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        root.scrollTop = st + singleHeight;
+        root.style.scrollBehavior = restore;
+        adjusting = false;
+      } else if (st >= singleHeight * 2 - buffer) {
+        adjusting = true;
+        const restore = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        root.scrollTop = st - singleHeight;
+        root.style.scrollBehavior = restore;
+        adjusting = false;
+      }
+    };
+
+    const init = () => {
+      singleHeight = totalHeight();
+      if (!singleHeight) return;
+      const restore = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      root.scrollTop = singleHeight;
+      root.style.scrollBehavior = restore;
+    };
+
+    root.addEventListener('scroll', normalize, {passive: true});
+    window.addEventListener('resize', () => {
+      singleHeight = totalHeight();
+    });
+
+    window.addEventListener('load', () => {
+      requestAnimationFrame(init);
+    });
+  })();
+</script>
+
+<script is:inline>
+  (() => {
+    // Desktop-only name highlighting
+    const isDesktop = () => window.innerWidth >= 900;
+    if (!isDesktop()) return;
+
+    const root = document.querySelector('.snapRoot');
+    const primaryCovers = Array.from(document.querySelectorAll('.slide.primary'));
+    const nameItems = Array.from(document.querySelectorAll('[data-name-idx]'));
+    if (!primaryCovers.length || !nameItems.length || !root) return;
+
+    let current = -1;
+    const setActive = (idx) => {
+      if (idx === current) return;
+      current = idx;
+      nameItems.forEach((li) => li.classList.remove('active'));
+      const target = nameItems.find((li) => Number(li.getAttribute('data-name-idx')) === idx);
+      if (target) target.classList.add('active');
+    };
+
+    const chooseByCenter = () => {
+      const line = window.innerHeight / 2;
+      let bestIdx = 0;
+      let bestDist = Infinity;
+
+      for (const cover of primaryCovers) {
+        const r = cover.getBoundingClientRect();
+        if (r.height <= 0) continue;
+        const originalIdx = Number(cover.getAttribute('data-original-idx') || 0);
+
+        if (r.top <= line && r.bottom >= line) {
+          setActive(originalIdx);
+          return;
+        }
+
+        const dist = Math.min(Math.abs(r.top - line), Math.abs(r.bottom - line));
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = originalIdx;
+        }
+      }
+
+      setActive(bestIdx);
+    };
+
+    let raf = 0;
+    const onScroll = () => {
+      if (!isDesktop()) return;
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        chooseByCenter();
+      });
+    };
+
+    root.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onScroll);
+    chooseByCenter();
+  })();
+</script>
+

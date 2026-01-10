@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import groq from 'groq';
+import { PortableText } from 'astro-portabletext';
+import { sanityClient } from '../lib/sanity';
+
+type SingletonPage = {
+  title?: string;
+  content?: any[];
+};
+
+const ABOUT_QUERY = groq`*[_id in ["aboutPage","drafts.aboutPage"]][0]{
+  title,
+  content
+}`;
+
+let page: SingletonPage | null = null;
+try {
+  page = await sanityClient.fetch<SingletonPage | null>(ABOUT_QUERY);
+} catch {
+  page = null;
+}
+
+const plainContent =
+  page?.content
+    ?.map((block: any) =>
+      Array.isArray(block?.children)
+        ? block.children.map((child: any) => child?.text ?? '').join('')
+        : '',
+    )
+    .join('\n\n') ?? '';
+const typedText =
+  plainContent ||
+  'No About content yet. Edit “About” in Sanity and refresh.';
+---
+
+<BaseLayout title="About – Karl Scholten" description="About the photographer.">
+  <article class="content">
+    <h1>{page?.title ?? 'About'}</h1>
+    <p class="typewriter" data-text={typedText}></p>
+  </article>
+</BaseLayout>
+
+<style>
+  .content {
+    min-height: 80vh;
+    max-width: 70ch;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    gap: 16px;
+    line-height: 1.65;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .typewriter {
+    margin: 0;
+    font-size: 16px;
+    color: var(--fg);
+    white-space: pre-wrap;
+    width: 100%;
+    text-align: left;
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const el = document.querySelector('.typewriter');
+    if (!el) return;
+    const text = el.getAttribute('data-text') || '';
+    const delay = 15;
+
+    function typeEffect(i = 0) {
+      if (i === 0) {
+        el.textContent = '';
+      }
+      el.textContent += text[i] ?? '';
+      if (i >= text.length - 1) return;
+      setTimeout(() => typeEffect(i + 1), delay);
+    }
+
+    typeEffect();
+  })();
+</script>
+
+

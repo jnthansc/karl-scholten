@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import groq from 'groq';
+import { sanityClient, urlForImage } from '../../lib/sanity';
+
+type ProjectDetail = {
+  title: string;
+  videoUrl?: string;
+  images?: Array<{
+    _key: string;
+    alt?: string;
+    asset?: { _id: string; url: string };
+  }>;
+};
+
+const PROJECT_BY_SLUG_QUERY = groq`*[_type == "project" && slug.current == $slug][0]{
+  title,
+  videoUrl,
+  images[]{
+    _key,
+    alt,
+    asset->{ _id, url }
+  }
+}`;
+
+export async function getStaticPaths() {
+  const slugs = await sanityClient.fetch<{slug: string}[]>(
+    groq`*[_type == "project" && defined(slug.current)]{ "slug": slug.current }`,
+  )
+  return slugs.map((s) => ({params: {slug: s.slug}}))
+}
+
+const { slug } = Astro.params as { slug: string };
+const project = await sanityClient.fetch<ProjectDetail | null>(PROJECT_BY_SLUG_QUERY, { slug });
+---
+
+<BaseLayout title={`${project?.title ?? 'Project'} – Karl Scholten`}>
+  <a class="back" href="/">← Back to overview</a>
+  {project ? (
+    <>
+      <header class="header">
+        <h1>{project.title}</h1>
+        <p class="muted">{project.images?.length ?? 0} images</p>
+      </header>
+
+      {project.videoUrl ? (
+        <section class="videoSection">
+          <div class="videoFrame">
+            <iframe
+              src={project.videoUrl}
+              title={`${project.title} video`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            />
+          </div>
+        </section>
+      ) : null}
+
+      <section class="stack" aria-label={`Images for ${project.title}`}>
+        {(project.images ?? []).map((img, i) => (
+          <figure class="frame" key={img._key}>
+            {img.asset ? (
+              <img
+                src={urlForImage(img).width(1600).quality(80).url()}
+                alt={img.alt ?? `${project.title} – image ${i + 1}`}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            ) : null}
+          </figure>
+        ))}
+      </section>
+    </>
+  ) : (
+    <p class="muted">Project not found.</p>
+  )}
+</BaseLayout>
+
+<style>
+  .back {
+    display: inline-block;
+    color: var(--muted);
+    margin: 6px 0 16px;
+    font-size: 14px;
+  }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    margin: 0;
+    letter-spacing: -0.02em;
+    font-size: 26px;
+  }
+
+  .muted {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .stack {
+    display: grid;
+    gap: 14px;
+  }
+
+  .videoSection {
+    margin-bottom: 16px;
+  }
+
+  .videoFrame {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: #000;
+  }
+
+  .videoFrame > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .frame {
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #e9ecf2;
+    box-shadow: var(--shadow);
+  }
+
+  .frame > img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
+
+

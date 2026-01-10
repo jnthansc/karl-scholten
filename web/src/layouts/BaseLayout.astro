@@ -1,0 +1,155 @@
+---
+const {
+  title,
+  description,
+  noindex = false,
+}: {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    {description ? <meta name="description" content={description} /> : null}
+    {noindex ? <meta name="robots" content="noindex,follow" /> : null}
+    <title>{title}</title>
+  </head>
+<body>
+    <header class="site-header">
+      <a class="brand" href="/">Karl Scholten</a>
+      <nav class="nav">
+        <a href="/about/">About</a>
+        <a href="/imprint/">Imprint</a>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <small>© {new Date().getFullYear()} Karl Scholten</small>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :global(:root) {
+    color-scheme: light;
+    --bg: #ffffff;
+    --fg: #0b0d10;
+    --muted: #5b6472;
+    --border: #e7e9ee;
+    --card: #f6f7f9;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    --radius: 16px;
+    --max: 100%;
+    --headerH: 56px;
+    --footerH: 44px;
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+  }
+
+  :global(html, body) {
+    height: 100%;
+  }
+
+  :global(*, *::before, *::after) {
+    box-sizing: border-box;
+  }
+
+  :global(body) {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+      Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    background: var(--bg);
+    color: var(--fg);
+    overflow-x: hidden;
+  }
+
+  :global(body.prep-hide) {
+    opacity: 0;
+  }
+
+  :global(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--headerH);
+    z-index: 1000;
+    background: transparent;
+    border-bottom: none;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 10px;
+  }
+
+  .brand {
+    font-weight: 650;
+    letter-spacing: 0.2px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 14px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .site-main {
+    max-width: var(--max);
+    margin: 0;
+    padding: 0 10px calc(var(--footerH) + 24px);
+  }
+
+  @media (max-width: 900px) {
+    .site-main {
+      padding: 0 0 calc(var(--footerH) + 24px);
+    }
+  }
+
+  .site-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--footerH);
+    display: flex;
+    align-items: center;
+    color: var(--muted);
+    padding: 0 10px;
+    background: transparent;
+    border-top: none;
+    z-index: 1000;
+  }
+
+  .site-footer > small {
+    display: block;
+    max-width: var(--max);
+    margin: 0;
+  }
+</style>
+
+

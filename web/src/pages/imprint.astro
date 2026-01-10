@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import groq from 'groq';
+import { PortableText } from 'astro-portabletext';
+import { sanityClient } from '../lib/sanity';
+
+type SingletonPage = {
+  title?: string;
+  content?: any[];
+};
+
+const IMPRINT_QUERY = groq`*[_id in ["imprintPage","drafts.imprintPage"]][0]{
+  title,
+  content
+}`;
+
+let page: SingletonPage | null = null;
+try {
+  page = await sanityClient.fetch<SingletonPage | null>(IMPRINT_QUERY);
+} catch {
+  page = null;
+}
+---
+
+<BaseLayout title="Imprint – Karl Scholten" description="Legal information.">
+  <article class="content">
+    <h1>{page?.title ?? 'Imprint'}</h1>
+    {page?.content?.length ? (
+      <PortableText value={page.content} />
+    ) : (
+      <p class="muted">
+        No Imprint content yet. Edit <strong>Imprint</strong> in Sanity and refresh.
+      </p>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .content {
+    max-width: 70ch;
+    line-height: 1.65;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+</style>
+
+
