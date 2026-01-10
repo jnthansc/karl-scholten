@@ -1,7 +1,7 @@
 [build]
   base = "web"
   command = "npm install && npm run build"
-  publish = "web/dist"
+  publish = "dist"
 
 # Redirect all routes to index.html for client-side routing
 # Astro handles this with getStaticPaths, but this ensures 404s are handled
