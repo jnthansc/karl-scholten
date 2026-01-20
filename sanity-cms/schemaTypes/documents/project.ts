@@ -48,6 +48,22 @@ export const project = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'mobileCoverImage',
+      title: 'Mobile Cover Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Optional: A different cover image for mobile devices. If not provided, the regular cover image will be used.',
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          validation: (rule) =>
+            rule.required().warning('Alt text helps accessibility and SEO.'),
+        }),
+      ],
+    }),
+    defineField({
       name: 'images',
       title: 'Project Images',
       type: 'array',

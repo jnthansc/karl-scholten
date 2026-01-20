@@ -14,6 +14,13 @@ type ProjectCard = {
       url: string;
     };
   };
+  mobileCoverImage?: {
+    alt?: string;
+    asset?: {
+      _id: string;
+      url: string;
+    };
+  };
 };
 
 const PROJECTS_QUERY = groq`*[
@@ -26,6 +33,10 @@ const PROJECTS_QUERY = groq`*[
     title,
     "slug": slug.current,
     coverImage {
+      alt,
+      asset->{ _id, url }
+    },
+    mobileCoverImage {
       alt,
       asset->{ _id, url }
     }
@@ -62,13 +73,21 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
               aria-hidden={copyIdx === 1 ? 'false' : 'true'}
             >
               <a class="coverLink" href={`/projects/${project.slug}/`} aria-label={`Open ${project.title}`}>
-                <img
-                  class="coverImg"
-                  src={urlForImage(project.coverImage).width(2200).quality(82).url()}
-                  alt={project.coverImage?.alt ?? project.title}
-                  loading={copyIdx === 1 && idx === 0 ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
+                <picture>
+                  {project.mobileCoverImage?.asset && (
+                    <source
+                      media="(max-width: 899px)"
+                      srcset={urlForImage(project.mobileCoverImage).width(1200).quality(82).url()}
+                    />
+                  )}
+                  <img
+                    class="coverImg"
+                    src={urlForImage(project.coverImage).width(2200).quality(82).url()}
+                    alt={project.coverImage?.alt ?? project.title}
+                    loading={copyIdx === 1 && idx === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </picture>
                 <span class="coverLabel">{project.title}</span>
               </a>
             </section>
@@ -97,32 +116,48 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
   /* Mobile-first snap layout */
   .snapRoot {
     display: block;
-    height: calc(124svh + var(--sat) + var(--sab));
+    height: calc(100svh + var(--sat) + var(--sab));
     overflow-y: auto;
     overscroll-behavior: contain;
+    touch-action: pan-y;
     scroll-snap-type: y mandatory;
     scroll-padding-top: 0;
     background: #000;
   }
 
+  .snapRoot.ios26-plus {
+    height: calc(124svh + var(--sat) + var(--sab));
+  }
+
   .slide {
     position: relative;
-    min-height: 124svh;
-    height: 124svh;
+    min-height: 100svh;
+    height: 100svh;
     scroll-snap-align: start;
     margin: 0;
     background: #000;
+  }
+
+  .slide.ios26-plus {
+    min-height: 124svh;
+    height: 124svh;
   }
 
   .coverLink {
     display: block;
     position: relative;
     width: 100%;
+    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  :global(.ios26-plus) .coverLink {
     height: calc(100% + var(--sat) + var(--sab) + var(--headerH));
     margin-top: calc(-1 * (var(--sat) + var(--headerH)));
     margin-bottom: calc(-1 * var(--sab));
-    overflow: hidden;
-    text-decoration: none;
   }
 
   .coverImg {
@@ -144,6 +179,12 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     font-size: 14px;
     line-height: 1.3;
     border-radius: 12px;
+  }
+
+  @media (max-width: 900px) {
+    :global(body) {
+      touch-action: none;
+    }
   }
 
   /* Larger screens: disable snap, allow natural flow if desired */
@@ -222,6 +263,73 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     }
   }
 </style>
+
+<script is:inline>
+  (() => {
+    // Detect iOS version and add class for iOS 26+
+    function detectIOSVersion() {
+      const userAgent = window.navigator.userAgent || window.navigator.vendor || window.opera;
+      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+      
+      if (!isIOS) return false;
+      
+      // For iOS 26+, the Safari Version number indicates the iOS version
+      // Format: "Version/26.2" - check for Version/26 or higher
+      const versionMatch = userAgent.match(/Version\/(\d+)/);
+      if (versionMatch) {
+        const safariVersion = parseInt(versionMatch[1], 10);
+        return safariVersion >= 26;
+      }
+      
+      // Fallback: Check OS version directly (for older iOS versions)
+      // Format: "OS 26_0" or "OS 18_7"
+      const osMatch = userAgent.match(/OS (\d+)[_\s]/);
+      if (osMatch) {
+        const iosVersion = parseInt(osMatch[1], 10);
+        return iosVersion >= 26;
+      }
+      
+      return false;
+    }
+
+    // Apply iOS 26+ class if detected (run immediately and on DOM ready)
+    function applyIOS26Class() {
+      if (detectIOSVersion()) {
+        document.documentElement.classList.add('ios26-plus');
+        const snapRoot = document.querySelector('.snapRoot');
+        const slides = document.querySelectorAll('.slide');
+        if (snapRoot) snapRoot.classList.add('ios26-plus');
+        slides.forEach((slide) => slide.classList.add('ios26-plus'));
+      }
+    }
+
+    // Run immediately if DOM is ready, otherwise wait for it
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', applyIOS26Class);
+    } else {
+      applyIOS26Class();
+    }
+  })();
+</script>
+
+<script is:inline>
+  (() => {
+    function isMobile() {
+      return window.innerWidth < 900;
+    }
+
+    function onTouchMove(event) {
+      if (!isMobile()) return;
+      const target = event.target;
+      if (target && target.closest && target.closest('.snapRoot')) {
+        return;
+      }
+      event.preventDefault();
+    }
+
+    document.addEventListener('touchmove', onTouchMove, {passive: false});
+  })();
+</script>
 
 <script is:inline>
   (() => {
