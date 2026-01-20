@@ -66,7 +66,7 @@ export const project = defineType({
           ],
         }),
       ],
-      validation: (rule) => rule.min(1).max(10),
+      validation: (rule) => rule.min(1),
     }),
     defineField({
       name: 'videoUrl',
