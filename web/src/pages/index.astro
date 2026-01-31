@@ -59,7 +59,9 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       <aside class="desktopNames" aria-label="Projects">
         <ol class="desktopNamesList">
           {projects.map((project, idx) => (
-            <li data-name-idx={idx}>{project.title}</li>
+            <li data-name-idx={idx}>
+              <a href={`/projects/${project.slug}/`} class="nameLink">{project.title}</a>
+            </li>
           ))}
         </ol>
       </aside>
@@ -201,9 +203,9 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       position: sticky;
       top: var(--headerH);
       align-self: start;
-      grid-column: 1 / span 1;
+      grid-column: 1 / span 2;
     padding: 8px 0;
-      font-size: 14px;
+      font-size: 1.5rem;
       color: var(--muted);
     height: calc(100vh - var(--headerH));
     display: flex;
@@ -229,8 +231,19 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     font-weight: 600;
   }
 
+  .nameLink {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .nameLink:hover {
+    color: var(--fg);
+  }
+
     .snapRoot {
-      grid-column: 2 / span 11;
+      grid-column: 3 / span 10;
       height: 100vh;
       scroll-snap-type: y mandatory;
       overflow-y: auto;
@@ -392,9 +405,11 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     if (!isDesktop()) return;
 
     const root = document.querySelector('.snapRoot');
-    const primaryCovers = Array.from(document.querySelectorAll('.slide.primary'));
     const nameItems = Array.from(document.querySelectorAll('[data-name-idx]'));
-    if (!primaryCovers.length || !nameItems.length || !root) return;
+    if (!nameItems.length || !root) return;
+    
+    // Cache slides - they don't change after initial load
+    const allSlides = Array.from(root.querySelectorAll('.slide'));
 
     let current = -1;
     const setActive = (idx) => {
@@ -406,21 +421,49 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     };
 
     const chooseByCenter = () => {
-      const line = window.innerHeight / 2;
+      const viewportCenter = window.innerHeight / 2;
       let bestIdx = 0;
       let bestDist = Infinity;
+      let intersectingIdx = null;
+      let intersectingDist = Infinity;
 
-      for (const cover of primaryCovers) {
+      // First pass: find covers that intersect the viewport center
+      for (const cover of allSlides) {
         const r = cover.getBoundingClientRect();
         if (r.height <= 0) continue;
+        
         const originalIdx = Number(cover.getAttribute('data-original-idx') || 0);
-
-        if (r.top <= line && r.bottom >= line) {
-          setActive(originalIdx);
-          return;
+        const coverCenter = r.top + r.height / 2;
+        
+        // Check if cover intersects the viewport center
+        const intersects = r.top <= viewportCenter && r.bottom >= viewportCenter;
+        
+        if (intersects) {
+          const dist = Math.abs(coverCenter - viewportCenter);
+          if (dist < intersectingDist) {
+            intersectingDist = dist;
+            intersectingIdx = originalIdx;
+          }
         }
+      }
 
-        const dist = Math.min(Math.abs(r.top - line), Math.abs(r.bottom - line));
+      // If we found an intersecting cover, use it
+      if (intersectingIdx !== null) {
+        setActive(intersectingIdx);
+        return;
+      }
+
+      // Second pass: find the closest cover to the viewport center
+      for (const cover of allSlides) {
+        const r = cover.getBoundingClientRect();
+        if (r.height <= 0) continue;
+        
+        const originalIdx = Number(cover.getAttribute('data-original-idx') || 0);
+        const coverCenter = r.top + r.height / 2;
+        
+        // Distance from cover center to viewport center
+        const dist = Math.abs(coverCenter - viewportCenter);
+        
         if (dist < bestDist) {
           bestDist = dist;
           bestIdx = originalIdx;
@@ -431,17 +474,41 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     };
 
     let raf = 0;
+    let lastUpdate = 0;
+    const throttleMs = 8; // Update at most every 8ms (~120fps)
+    
     const onScroll = () => {
       if (!isDesktop()) return;
-      if (raf) return;
-      raf = window.requestAnimationFrame(() => {
-        raf = 0;
+      
+      const now = performance.now();
+      const timeSinceLastUpdate = now - lastUpdate;
+      
+      // If enough time has passed, update immediately
+      if (timeSinceLastUpdate >= throttleMs) {
+        lastUpdate = now;
         chooseByCenter();
-      });
+        // Cancel any pending RAF since we just updated
+        if (raf) {
+          window.cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      } else if (!raf) {
+        // Schedule update for when throttle period expires
+        const delay = throttleMs - timeSinceLastUpdate;
+        raf = window.requestAnimationFrame(() => {
+          raf = 0;
+          lastUpdate = performance.now();
+          chooseByCenter();
+        });
+      }
     };
 
     root.addEventListener('scroll', onScroll, {passive: true});
-    window.addEventListener('resize', onScroll);
+    window.addEventListener('resize', () => {
+      onScroll();
+    });
+    
+    // Initial highlight - run immediately
     chooseByCenter();
   })();
 </script>
