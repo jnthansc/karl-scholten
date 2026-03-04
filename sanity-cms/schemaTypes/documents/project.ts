@@ -48,6 +48,20 @@ export const project = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'indexTextColor',
+      title: 'Index Page Text Color',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Black', value: 'black' },
+          { title: 'White', value: 'white' },
+        ],
+        layout: 'radio',
+      },
+      description: 'Text color for the project title when visible on the homepage.',
+      initialValue: 'black',
+    }),
+    defineField({
       name: 'mobileCoverImage',
       title: 'Mobile Cover Image',
       type: 'image',
