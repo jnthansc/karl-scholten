@@ -7,11 +7,19 @@ import { sanityClient } from '../lib/sanity';
 type SingletonPage = {
   title?: string;
   content?: any[];
+  backgroundVideo?: {
+    asset?: { url: string };
+  };
 };
 
 const ABOUT_QUERY = groq`*[_id in ["aboutPage","drafts.aboutPage"]][0]{
   title,
-  content
+  content,
+  backgroundVideo {
+    asset-> {
+      url
+    }
+  }
 }`;
 
 let page: SingletonPage | null = null;
@@ -34,7 +42,21 @@ const typedText =
   'No About content yet. Edit “About” in Sanity and refresh.';
 ---
 
-<BaseLayout title="About – Karl Scholten" description="About the photographer.">
+<BaseLayout title="About – Karl Scholten" description="About the photographer." bodyClass="about-page">
+  {page?.backgroundVideo?.asset?.url && (
+    <div class="video-background">
+      <video
+        src={page.backgroundVideo.asset.url}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+      />
+      <div class="video-overlay" aria-hidden="true"></div>
+    </div>
+  )}
   <article class="content">
     <h1>{page?.title ?? 'About'}</h1>
     <p class="typewriter" data-text={typedText}></p>
@@ -42,17 +64,69 @@ const typedText =
 </BaseLayout>
 
 <style>
+  :global(body.about-page .site-header),
+  :global(body.about-page .site-header a),
+  :global(body.about-page .site-header .brand),
+  :global(body.about-page .site-header .brand-section),
+  :global(body.about-page .site-header .project-title),
+  :global(body.about-page .nav),
+  :global(body.about-page .nav a),
+  :global(body.about-page .site-footer),
+  :global(body.about-page .site-footer small) {
+    color: #fff !important;
+  }
+
+  .video-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .video-background video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
   .content {
+    position: relative;
+    z-index: 1;
     min-height: 80vh;
-    max-width: 70ch;
+    color: #fff;
+    max-width: 82ch;
     margin: 0 auto;
+    padding-top: 30vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    text-align: left;
-    gap: 16px;
+    text-align: justify;
+    gap: 64px;
     line-height: 1.65;
+  }
+
+  @media (max-width: 900px) {
+    .content {
+      padding-top: 15vh;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
   }
 
   .muted {
@@ -62,15 +136,17 @@ const typedText =
   h1 {
     margin: 0 0 12px;
     letter-spacing: -0.02em;
+    color: #fff;
   }
 
   .typewriter {
     margin: 0;
     font-size: 16px;
-    color: var(--fg);
+    color: #fff;
     white-space: pre-wrap;
     width: 100%;
-    text-align: left;
+    text-align: justify;
+    hyphens: auto;
   }
 </style>
 
@@ -82,9 +158,7 @@ const typedText =
     const delay = 15;
 
     function typeEffect(i = 0) {
-      if (i === 0) {
-        el.textContent = '';
-      }
+      if (i === 0) el.textContent = '';
       el.textContent += text[i] ?? '';
       if (i >= text.length - 1) return;
       setTimeout(() => typeEffect(i + 1), delay);

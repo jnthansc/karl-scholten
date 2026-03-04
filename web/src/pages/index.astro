@@ -7,6 +7,7 @@ type ProjectCard = {
   _id: string;
   title: string;
   slug: string;
+  indexTextColor?: 'black' | 'white';
   coverImage?: {
     alt?: string;
     asset?: {
@@ -32,6 +33,7 @@ const PROJECTS_QUERY = groq`*[
     _id,
     title,
     "slug": slug.current,
+    indexTextColor,
     coverImage {
       alt,
       asset->{ _id, url }
@@ -51,7 +53,7 @@ try {
 projects = projects.filter((p) => Boolean(p.coverImage?.asset));
 ---
 
-<BaseLayout title="Karl Scholten – Photographer">
+<BaseLayout title="Karl Scholten – Photographer" bodyClass="index-page">
   {projects.length === 0 ? (
     <p class="empty">No projects with cover images yet.</p>
   ) : (
@@ -72,6 +74,7 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
               class={`slide ${copyIdx === 1 ? 'primary' : 'clone'}`}
               data-idx={copyIdx * projects.length + idx}
               data-original-idx={idx}
+              data-index-text-color={project.indexTextColor === 'white' ? '#fff' : project.indexTextColor === 'black' ? '#000' : undefined}
               aria-hidden={copyIdx === 1 ? 'false' : 'true'}
             >
               <a class="coverLink" href={`/projects/${project.slug}/`} aria-label={`Open ${project.title}`}>
@@ -172,15 +175,13 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
 
   .coverLabel {
     position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 8px 12px;
-    background: color-mix(in srgb, var(--bg) 75%, transparent);
-    color: var(--fg);
-    font-size: 14px;
+    left: 10px;
+    top: 5%;
+    padding: 0;
+    background: transparent;
+    color: var(--index-text-color);
+    font-size: 0.9rem;
     line-height: 1.3;
-    border-radius: 12px;
   }
 
   @media (max-width: 900px) {
@@ -204,43 +205,45 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       top: var(--headerH);
       align-self: start;
       grid-column: 1 / span 2;
-    padding: 8px 0;
-      font-size: 1.5rem;
+      padding: 8px 0;
+      font-size: 1.2rem;
       color: var(--muted);
-    height: calc(100vh - var(--headerH));
-    display: flex;
-    align-items: center;
+      height: calc(100vh - var(--headerH));
+      display: flex;
+      align-items: start;
+      padding-top: 100px;
+      box-sizing: border-box;
     }
 
-  .desktopNamesList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 6px;
-    width: 100%;
-  }
+    .desktopNamesList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 6px;
+      width: 100%;
+    }
 
-  .desktopNamesList > li {
-    color: var(--muted);
-    transition: color 0.2s ease;
-  }
+    .desktopNamesList > li {
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
 
-  .desktopNamesList > li.active {
-    color: var(--fg);
-    font-weight: 600;
-  }
+    .desktopNamesList > li.active {
+      color: var(--fg);
+      font-weight: 600;
+    }
 
-  .nameLink {
-    display: block;
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
+    .nameLink {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
 
-  .nameLink:hover {
-    color: var(--fg);
-  }
+    .nameLink:hover {
+      color: var(--fg);
+    }
 
     .snapRoot {
       grid-column: 3 / span 10;
@@ -395,6 +398,44 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     window.addEventListener('load', () => {
       requestAnimationFrame(init);
     });
+  })();
+</script>
+
+<script is:inline>
+  (() => {
+    // Mobile: update --index-text-color and --index-label-bg based on visible project
+    const isMobile = () => window.innerWidth < 900;
+    const root = document.querySelector('.snapRoot');
+    if (root) {
+      const allSlides = () => Array.from(root.querySelectorAll('.slide'));
+      const updateIndexTextColor = () => {
+        if (!isMobile()) return;
+        const slides = allSlides();
+        const viewportCenter = window.innerHeight / 2;
+        let bestSlide = slides[0];
+        let bestDist = Infinity;
+
+        for (const slide of slides) {
+          const r = slide.getBoundingClientRect();
+          if (r.height <= 0) continue;
+          const center = r.top + r.height / 2;
+          const dist = Math.abs(center - viewportCenter);
+          if (dist < bestDist) {
+            bestDist = dist;
+            bestSlide = slide;
+          }
+        }
+
+        const color = bestSlide?.getAttribute('data-index-text-color') || '#000';
+        document.documentElement.style.setProperty('--index-text-color', color);
+      };
+
+      root.addEventListener('scroll', () => {
+        requestAnimationFrame(updateIndexTextColor);
+      }, {passive: true});
+      window.addEventListener('resize', updateIndexTextColor);
+      updateIndexTextColor();
+    }
   })();
 </script>
 

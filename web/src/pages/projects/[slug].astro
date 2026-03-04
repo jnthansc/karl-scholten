@@ -5,6 +5,7 @@ import { sanityClient, urlForImage } from '../../lib/sanity';
 
 type ProjectDetail = {
   title: string;
+  indexTextColor?: 'black' | 'white';
   videoUrl?: string;
   images?: Array<{
     _key: string;
@@ -15,6 +16,7 @@ type ProjectDetail = {
 
 const PROJECT_BY_SLUG_QUERY = groq`*[_type == "project" && slug.current == $slug][0]{
   title,
+  indexTextColor,
   videoUrl,
   images[]{
     _key,
@@ -82,9 +84,12 @@ function getEmbedUrl(url: string | undefined): string | undefined {
 const embedUrl = project?.videoUrl ? getEmbedUrl(project.videoUrl) : undefined;
 const hasImages = project?.images && project.images.length > 0;
 const videoOnly = embedUrl && !hasImages;
+const textColorClass =
+  project?.indexTextColor === 'white' ? 'project-text-white' :
+  project?.indexTextColor === 'black' ? 'project-text-black' : '';
 ---
 
-<BaseLayout title={`${project?.title ?? 'Project'} – Karl Scholten`} projectTitle={project?.title}>
+<BaseLayout title={`${project?.title ?? 'Project'} – Karl Scholten`} projectTitle={project?.title} bodyClass={['project-page', textColorClass].filter(Boolean).join(' ')}>
   <div class={`project-content ${videoOnly ? 'video-only' : ''}`}>
     {project ? (
       <>
@@ -124,6 +129,40 @@ const videoOnly = embedUrl && !hasImages;
 </BaseLayout>
 
 <style>
+  :global(body.project-text-white) {
+    background: #000;
+  }
+
+  :global(body.project-text-white .site-header),
+  :global(body.project-text-white .site-header a),
+  :global(body.project-text-white .site-header .brand),
+  :global(body.project-text-white .site-header .brand-section),
+  :global(body.project-text-white .site-header .project-title),
+  :global(body.project-text-white .nav),
+  :global(body.project-text-white .nav a),
+  :global(body.project-text-white .site-footer),
+  :global(body.project-text-white .site-footer small),
+  :global(body.project-text-white .site-main),
+  :global(body.project-text-white .project-content),
+  :global(body.project-text-white .muted) {
+    color: #fff !important;
+  }
+
+  :global(body.project-text-black .site-header),
+  :global(body.project-text-black .site-header a),
+  :global(body.project-text-black .site-header .brand),
+  :global(body.project-text-black .site-header .brand-section),
+  :global(body.project-text-black .site-header .project-title),
+  :global(body.project-text-black .nav),
+  :global(body.project-text-black .nav a),
+  :global(body.project-text-black .site-footer),
+  :global(body.project-text-black .site-footer small),
+  :global(body.project-text-black .site-main),
+  :global(body.project-text-black .project-content),
+  :global(body.project-text-black .muted) {
+    color: #000 !important;
+  }
+
   .project-content {
     width: 100%;
   }
