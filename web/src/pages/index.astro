@@ -540,21 +540,19 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       current = idx;
       nameItems.forEach((li) => li.classList.remove('active'));
       nameItems.filter((li) => Number(li.getAttribute('data-name-idx')) === idx).forEach((li) => li.classList.add('active'));
+    };
 
-      // Center the active item in the names viewport (desktop only)
-      if (isDesktop() && namesScroll) {
-        const namesSingleHeight = getNamesSingleHeight();
-        if (namesSingleHeight > 0) {
-          let scrollTop = namesSingleHeight + idx * ITEM_HEIGHT + ITEM_HEIGHT / 2 - NAMES_VIEWPORT / 2;
-          const buffer = 60;
-          if (scrollTop < namesSingleHeight - buffer) scrollTop += namesSingleHeight;
-          else if (scrollTop > namesSingleHeight * 2 - NAMES_VIEWPORT + buffer) scrollTop -= namesSingleHeight;
-          const restore = namesScroll.style.scrollBehavior;
-          namesScroll.style.scrollBehavior = 'auto';
-          namesScroll.scrollTop = scrollTop;
-          namesScroll.style.scrollBehavior = restore;
-        }
-      }
+    const syncNamesScroll = () => {
+      if (!isDesktop() || !namesScroll) return;
+      const imageSingleHeight = root.scrollHeight / 3;
+      const namesSingleHeight = getNamesSingleHeight();
+      if (!imageSingleHeight || !namesSingleHeight) return;
+      const viewportH = window.innerHeight;
+      const centerContentPos = root.scrollTop + viewportH / 2;
+      const fraction = (centerContentPos - imageSingleHeight) / imageSingleHeight;
+      let namesScrollTop = namesSingleHeight + fraction * namesSingleHeight - NAMES_VIEWPORT / 2;
+      namesScrollTop = Math.max(0, Math.min(namesScrollTop, namesScroll.scrollHeight - NAMES_VIEWPORT));
+      namesScroll.scrollTop = namesScrollTop;
     };
 
     const chooseByCenter = () => {
@@ -616,22 +614,20 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     
     const onScroll = () => {
       if (!isDesktop()) return;
-      
+
+      syncNamesScroll();
+
       const now = performance.now();
       const timeSinceLastUpdate = now - lastUpdate;
-      
-      // If enough time has passed, update immediately
+
       if (timeSinceLastUpdate >= throttleMs) {
         lastUpdate = now;
         chooseByCenter();
-        // Cancel any pending RAF since we just updated
         if (raf) {
           window.cancelAnimationFrame(raf);
           raf = 0;
         }
       } else if (!raf) {
-        // Schedule update for when throttle period expires
-        const delay = throttleMs - timeSinceLastUpdate;
         raf = window.requestAnimationFrame(() => {
           raf = 0;
           lastUpdate = performance.now();
@@ -677,7 +673,7 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       onScroll();
     });
 
-    // Initial highlight - run immediately
+    syncNamesScroll();
     chooseByCenter();
   })();
 </script>
