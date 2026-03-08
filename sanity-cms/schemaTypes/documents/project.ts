@@ -30,6 +30,14 @@ export const project = defineType({
       description: 'Lower numbers appear first on the site.',
       initialValue: 0,
     }),
+    defineField({
+      name: 'year',
+      title: 'Year',
+      type: 'number',
+      description: 'The year the project was created.',
+      validation: (rule) =>
+        rule.min(1900).max(2100).warning('Enter a valid year between 1900 and 2100.'),
+    }),
 
     defineField({
       name: 'coverImage',
@@ -119,7 +127,14 @@ export const project = defineType({
   preview: {
     select: {
       title: 'title',
+      year: 'year',
       media: 'coverImage',
+    },
+    prepare({title, year, media}) {
+      return {
+        title: year ? `${title} | ${year}` : title,
+        media,
+      }
     },
   },
 })
