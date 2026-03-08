@@ -57,15 +57,23 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
   {projects.length === 0 ? (
     <p class="empty">No projects with cover images yet.</p>
   ) : (
+    <>
+    <span class="index-project-title" id="index-project-title" aria-hidden="true"></span>
     <div class="pageGrid">
       <aside class="desktopNames" aria-label="Projects">
-        <ol class="desktopNamesList">
-          {projects.map((project, idx) => (
-            <li data-name-idx={idx}>
-              <a href={`/projects/${project.slug}/`} class="nameLink">{project.title}</a>
-            </li>
-          ))}
-        </ol>
+        <div class="desktopNamesViewport">
+          <div class="desktopNamesScroll">
+            {Array.from({length: 3}).map((_, copyIdx) => (
+              <ol class="desktopNamesList" data-copy-idx={copyIdx}>
+                {projects.map((project, idx) => (
+                  <li data-name-idx={idx}>
+                    <a href={`/projects/${project.slug}/`} class="nameLink">{project.title}</a>
+                  </li>
+                ))}
+              </ol>
+            ))}
+          </div>
+        </div>
       </aside>
       <div class="snapRoot" aria-label="Project covers">
         {Array.from({length: 3}).map((_, copyIdx) =>
@@ -74,6 +82,7 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
               class={`slide ${copyIdx === 1 ? 'primary' : 'clone'}`}
               data-idx={copyIdx * projects.length + idx}
               data-original-idx={idx}
+              data-project-title={project.title}
               data-index-text-color={project.indexTextColor === 'white' ? '#fff' : project.indexTextColor === 'black' ? '#000' : undefined}
               aria-hidden={copyIdx === 1 ? 'false' : 'true'}
             >
@@ -93,17 +102,23 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
                     decoding="async"
                   />
                 </picture>
-                <span class="coverLabel">{project.title}</span>
               </a>
             </section>
           )),
         )}
       </div>
     </div>
+    </>
   )}
 </BaseLayout>
 
 <style>
+  :global(body.index-page) {
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+  }
+
   .empty {
     margin: 16px 0;
     color: var(--muted);
@@ -173,18 +188,24 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     background: #000;
   }
 
-  .coverLabel {
-    position: absolute;
-    left: 10px;
-    top: 5%;
-    padding: 0;
-    background: transparent;
-    color: var(--index-text-color);
-    font-size: 0.9rem;
-    line-height: 1.3;
+  .index-project-title {
+    display: none;
   }
 
   @media (max-width: 900px) {
+    .index-project-title {
+      display: block;
+      position: fixed;
+      left: calc(10px + env(safe-area-inset-left, 0px));
+      top: calc(var(--headerH) + var(--project-title-gap) + env(safe-area-inset-top, 0px));
+      padding: 0;
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      color: var(--index-text-color);
+      z-index: 100;
+      pointer-events: none;
+    }
     :global(body) {
       touch-action: none;
     }
@@ -200,33 +221,41 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     }
 
     .desktopNames {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: sticky;
       top: var(--headerH);
-      align-self: start;
       grid-column: 1 / span 2;
-      padding: 8px 0;
-      font-size: 1.2rem;
-      color: var(--muted);
       height: calc(100vh - var(--headerH));
-      display: flex;
-      align-items: start;
-      padding-top: 100px;
       box-sizing: border-box;
+    }
+
+    .desktopNamesViewport {
+      height: 352px;
+      width: 100%;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .desktopNamesScroll {
+      height: 100%;
+      overflow-y: hidden;
     }
 
     .desktopNamesList {
       list-style: none;
       padding: 0;
       margin: 0;
-      display: grid;
-      gap: 6px;
       width: 100%;
     }
 
     .desktopNamesList > li {
       color: var(--muted);
       transition: color 0.2s ease;
+      height: 32px;
+      display: flex;
+      align-items: center;
     }
 
     .desktopNamesList > li.active {
@@ -239,6 +268,8 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       color: inherit;
       text-decoration: none;
       transition: color 0.2s ease;
+      font-size: 1.2rem;
+      width: 100%;
     }
 
     .nameLink:hover {
@@ -274,9 +305,6 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       background: #fff;
     }
 
-    .coverLabel {
-      display: none;
-    }
   }
 </style>
 
@@ -350,6 +378,7 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
 <script is:inline>
   (() => {
     const root = document.querySelector('.snapRoot');
+    const namesScroll = document.querySelector('.desktopNamesScroll');
     if (!root) return;
 
     const slides = Array.from(root.querySelectorAll('.slide'));
@@ -358,8 +387,27 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     const copies = 3;
     const totalHeight = () => root.scrollHeight / copies || 0;
     let singleHeight = totalHeight();
+
+    const ITEM_HEIGHT = 32;
+    const NAMES_VIEWPORT = ITEM_HEIGHT * 11;
+    const getNamesSingleHeight = () => {
+      if (!namesScroll) return 0;
+      const listCount = namesScroll.querySelectorAll('.desktopNamesList').length;
+      const itemsPerList = namesScroll.querySelectorAll('.desktopNamesList > li').length / listCount;
+      return itemsPerList * ITEM_HEIGHT;
+    };
+    let namesSingleHeight = 0;
+
     const buffer = 120;
     let adjusting = false;
+
+    const setNamesScrollToMiddle = () => {
+      if (!namesScroll || !namesSingleHeight) return;
+      const restore = namesScroll.style.scrollBehavior;
+      namesScroll.style.scrollBehavior = 'auto';
+      namesScroll.scrollTop = namesSingleHeight;
+      namesScroll.style.scrollBehavior = restore;
+    };
 
     const normalize = () => {
       if (adjusting || !singleHeight) return;
@@ -370,6 +418,12 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
         root.style.scrollBehavior = 'auto';
         root.scrollTop = st + singleHeight;
         root.style.scrollBehavior = restore;
+        if (namesScroll && namesSingleHeight) {
+          const nsRestore = namesScroll.style.scrollBehavior;
+          namesScroll.style.scrollBehavior = 'auto';
+          namesScroll.scrollTop = namesScroll.scrollTop + namesSingleHeight;
+          namesScroll.style.scrollBehavior = nsRestore;
+        }
         adjusting = false;
       } else if (st >= singleHeight * 2 - buffer) {
         adjusting = true;
@@ -377,26 +431,42 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
         root.style.scrollBehavior = 'auto';
         root.scrollTop = st - singleHeight;
         root.style.scrollBehavior = restore;
+        if (namesScroll && namesSingleHeight) {
+          const nsRestore = namesScroll.style.scrollBehavior;
+          namesScroll.style.scrollBehavior = 'auto';
+          namesScroll.scrollTop = namesScroll.scrollTop - namesSingleHeight;
+          namesScroll.style.scrollBehavior = nsRestore;
+        }
         adjusting = false;
       }
     };
 
+    const onImageScroll = () => {
+      normalize();
+    };
+
     const init = () => {
       singleHeight = totalHeight();
+      namesSingleHeight = getNamesSingleHeight();
       if (!singleHeight) return;
       const restore = root.style.scrollBehavior;
       root.style.scrollBehavior = 'auto';
       root.scrollTop = singleHeight;
       root.style.scrollBehavior = restore;
+      setNamesScrollToMiddle();
     };
 
-    root.addEventListener('scroll', normalize, {passive: true});
+    root.addEventListener('scroll', onImageScroll, {passive: true});
     window.addEventListener('resize', () => {
       singleHeight = totalHeight();
+      namesSingleHeight = getNamesSingleHeight();
     });
 
     window.addEventListener('load', () => {
-      requestAnimationFrame(init);
+      requestAnimationFrame(() => {
+        namesSingleHeight = getNamesSingleHeight();
+        init();
+      });
     });
   })();
 </script>
@@ -427,7 +497,10 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
         }
 
         const color = bestSlide?.getAttribute('data-index-text-color') || '#000';
+        const title = bestSlide?.getAttribute('data-project-title') || '';
         document.documentElement.style.setProperty('--index-text-color', color);
+        const titleEl = document.getElementById('index-project-title');
+        if (titleEl) titleEl.textContent = title;
       };
 
       root.addEventListener('scroll', () => {
@@ -441,24 +514,47 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
 
 <script is:inline>
   (() => {
-    // Desktop-only name highlighting
+    // Desktop-only name highlighting and names list scroll sync
     const isDesktop = () => window.innerWidth >= 900;
-    if (!isDesktop()) return;
 
     const root = document.querySelector('.snapRoot');
+    const namesScroll = document.querySelector('.desktopNamesScroll');
     const nameItems = Array.from(document.querySelectorAll('[data-name-idx]'));
     if (!nameItems.length || !root) return;
-    
+
+    const ITEM_HEIGHT = 32;
+    const NAMES_VIEWPORT = ITEM_HEIGHT * 11;
+
+    const getNamesSingleHeight = () => {
+      if (!namesScroll) return 0;
+      const listCount = namesScroll.querySelectorAll('.desktopNamesList').length;
+      const itemsPerList = namesScroll.querySelectorAll('.desktopNamesList > li').length / listCount;
+      return itemsPerList * ITEM_HEIGHT;
+    };
+
     // Cache slides - they don't change after initial load
     const allSlides = Array.from(root.querySelectorAll('.slide'));
 
     let current = -1;
     const setActive = (idx) => {
-      if (idx === current) return;
       current = idx;
       nameItems.forEach((li) => li.classList.remove('active'));
-      const target = nameItems.find((li) => Number(li.getAttribute('data-name-idx')) === idx);
-      if (target) target.classList.add('active');
+      nameItems.filter((li) => Number(li.getAttribute('data-name-idx')) === idx).forEach((li) => li.classList.add('active'));
+
+      // Center the active item in the names viewport (desktop only)
+      if (isDesktop() && namesScroll) {
+        const namesSingleHeight = getNamesSingleHeight();
+        if (namesSingleHeight > 0) {
+          let scrollTop = namesSingleHeight + idx * ITEM_HEIGHT + ITEM_HEIGHT / 2 - NAMES_VIEWPORT / 2;
+          const buffer = 60;
+          if (scrollTop < namesSingleHeight - buffer) scrollTop += namesSingleHeight;
+          else if (scrollTop > namesSingleHeight * 2 - NAMES_VIEWPORT + buffer) scrollTop -= namesSingleHeight;
+          const restore = namesScroll.style.scrollBehavior;
+          namesScroll.style.scrollBehavior = 'auto';
+          namesScroll.scrollTop = scrollTop;
+          namesScroll.style.scrollBehavior = restore;
+        }
+      }
     };
 
     const chooseByCenter = () => {
@@ -544,11 +640,43 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       }
     };
 
+    const scrollToProject = (idx) => {
+      const slideHeight = root.scrollHeight / allSlides.length;
+      const singleHeight = root.scrollHeight / 3;
+      const viewportH = window.innerHeight;
+      const targetCenter = idx * slideHeight + slideHeight / 2 - viewportH / 2;
+      const currentScroll = root.scrollTop;
+      const candidates = [
+        targetCenter,
+        singleHeight + targetCenter,
+        singleHeight * 2 + targetCenter,
+      ].map((t) => Math.max(0, Math.min(t, root.scrollHeight - viewportH)));
+      const nearest = candidates.reduce((best, c) =>
+        Math.abs(c - currentScroll) < Math.abs(best - currentScroll) ? c : best
+      );
+      root.style.scrollBehavior = 'smooth';
+      root.scrollTop = nearest;
+      setActive(idx);
+      root.style.scrollBehavior = '';
+    };
+
+    document.querySelectorAll('.nameLink').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        if (!isDesktop()) return;
+        const li = link.closest('[data-name-idx]');
+        if (!li) return;
+        const idx = Number(li.getAttribute('data-name-idx'));
+        if (idx === current) return;
+        e.preventDefault();
+        scrollToProject(idx);
+      });
+    });
+
     root.addEventListener('scroll', onScroll, {passive: true});
     window.addEventListener('resize', () => {
       onScroll();
     });
-    
+
     // Initial highlight - run immediately
     chooseByCenter();
   })();
