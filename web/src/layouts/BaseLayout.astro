@@ -70,22 +70,24 @@ const {
     --sab: env(safe-area-inset-bottom, 0px);
   }
 
-  :global(html, body) {
+  :global(html) {
     height: 100%;
-  }
-
-  :global(*, *::before, *::after) {
-    box-sizing: border-box;
+    background: #fff;
   }
 
   :global(body) {
+    height: 100%;
     margin: 0;
     font-family: 'Google Sans', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
       Arial, "Apple Color Emoji", "Segoe UI Emoji";
     font-size: inherit;
-    background: var(--bg);
+    background: #fff;
     color: var(--fg);
     overflow-x: hidden;
+  }
+
+  :global(*, *::before, *::after) {
+    box-sizing: border-box;
   }
 
   :global(body.prep-hide) {
