@@ -5,6 +5,7 @@ import { sanityClient, urlForImage } from '../../lib/sanity';
 
 type ProjectDetail = {
   title: string;
+  year?: number;
   indexTextColor?: 'black' | 'white';
   videoUrl?: string;
   images?: Array<{
@@ -16,6 +17,7 @@ type ProjectDetail = {
 
 const PROJECT_BY_SLUG_QUERY = groq`*[_type == "project" && slug.current == $slug][0]{
   title,
+  year,
   indexTextColor,
   videoUrl,
   images[]{
@@ -89,7 +91,11 @@ const textColorClass =
   project?.indexTextColor === 'black' ? 'project-text-black' : '';
 ---
 
-<BaseLayout title={`${project?.title ?? 'Project'} – Karl Scholten`} projectTitle={project?.title} bodyClass={['project-page', textColorClass].filter(Boolean).join(' ')}>
+<BaseLayout
+  title={`${project?.year ? `${project.title} | ${project.year}` : project?.title ?? 'Project'} – Karl Scholten`}
+  projectTitle={project?.year ? `${project.title} | ${project.year}` : project?.title}
+  bodyClass={['project-page', textColorClass].filter(Boolean).join(' ')}
+>
   <div class={`project-content ${videoOnly ? 'video-only' : ''}`}>
     {project ? (
       <>
