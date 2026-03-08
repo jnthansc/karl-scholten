@@ -63,8 +63,9 @@ const {
     --shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
     --radius: 16px;
     --max: 100%;
-    --headerH: 56px;
+    --headerH: 44px;
     --footerH: 44px;
+    --project-title-gap: 0px;
     --sat: env(safe-area-inset-top, 0px);
     --sab: env(safe-area-inset-bottom, 0px);
   }
@@ -181,8 +182,8 @@ const {
   @media (max-width: 900px) {
     :global(body.project-page) .site-header .project-title {
       position: fixed;
-      left: 10px;
-      top: 5%;
+      left: calc(10px + env(safe-area-inset-left, 0px));
+      top: calc(var(--headerH) + var(--project-title-gap) + env(safe-area-inset-top, 0px));
       margin: 0;
     }
 
