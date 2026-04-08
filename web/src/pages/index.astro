@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import groq from 'groq';
+import {PROJECTS_FOR_INDEX_QUERY} from '../lib/homepage-projects';
 import {sanityClient, urlForImage} from '../lib/sanity';
 
 type ProjectCard = {
@@ -24,29 +24,9 @@ type ProjectCard = {
   };
 };
 
-const PROJECTS_QUERY = groq`*[
-    _type == "project" &&
-    defined(slug.current) &&
-    defined(coverImage.asset)
-  ]
-  | order(order asc, publishedAt desc, _createdAt desc) {
-    _id,
-    title,
-    "slug": slug.current,
-    indexTextColor,
-    coverImage {
-      alt,
-      asset->{ _id, url }
-    },
-    mobileCoverImage {
-      alt,
-      asset->{ _id, url }
-    }
-  }`;
-
 let projects: ProjectCard[] = [];
 try {
-  projects = await sanityClient.fetch<ProjectCard[]>(PROJECTS_QUERY);
+  projects = await sanityClient.fetch<ProjectCard[]>(PROJECTS_FOR_INDEX_QUERY);
 } catch {
   projects = [];
 }
@@ -268,7 +248,7 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
       color: inherit;
       text-decoration: none;
       transition: color 0.2s ease;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       width: 100%;
     }
 
@@ -675,6 +655,181 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
 
     syncNamesScroll();
     chooseByCenter();
+  })();
+</script>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('.snapRoot');
+    if (!root) return;
+
+    const allSlides = Array.from(root.querySelectorAll('.slide'));
+    const projectCount = Math.round(allSlides.length / 3);
+    if (projectCount <= 1 || allSlides.length < 3) return;
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const IDLE_MS = 5000;
+    const PROGRAMMATIC_SMOOTH_FALLBACK_MS = 2800;
+
+    let idleTimeoutId = null;
+    let ignoreScrollResetUntil = 0;
+
+    function clearIdleTimer() {
+      if (idleTimeoutId !== null) {
+        window.clearTimeout(idleTimeoutId);
+        idleTimeoutId = null;
+      }
+    }
+
+    function shouldRunAutoAdvance() {
+      if (document.visibilityState !== 'visible') return false;
+      if (motionQuery.matches) return false;
+      return true;
+    }
+
+    function scheduleIdleTimer() {
+      clearIdleTimer();
+      if (!shouldRunAutoAdvance()) return;
+      idleTimeoutId = window.setTimeout(() => {
+        idleTimeoutId = null;
+        runAutoAdvance();
+      }, IDLE_MS);
+    }
+
+    function resetIdleTimer() {
+      scheduleIdleTimer();
+    }
+
+    function getCurrentOriginalIdx() {
+      const viewportCenter = window.innerHeight / 2;
+      let intersectingIdx = null;
+      let intersectingDist = Infinity;
+      let bestIdx = 0;
+      let bestDist = Infinity;
+
+      for (const cover of allSlides) {
+        const r = cover.getBoundingClientRect();
+        if (r.height <= 0) continue;
+
+        const originalIdx = Number(cover.getAttribute('data-original-idx') || 0);
+        const coverCenter = r.top + r.height / 2;
+        const intersects = r.top <= viewportCenter && r.bottom >= viewportCenter;
+
+        if (intersects) {
+          const dist = Math.abs(coverCenter - viewportCenter);
+          if (dist < intersectingDist) {
+            intersectingDist = dist;
+            intersectingIdx = originalIdx;
+          }
+        }
+      }
+
+      if (intersectingIdx !== null) {
+        return intersectingIdx;
+      }
+
+      for (const cover of allSlides) {
+        const r = cover.getBoundingClientRect();
+        if (r.height <= 0) continue;
+
+        const originalIdx = Number(cover.getAttribute('data-original-idx') || 0);
+        const coverCenter = r.top + r.height / 2;
+        const dist = Math.abs(coverCenter - viewportCenter);
+
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = originalIdx;
+        }
+      }
+
+      return bestIdx;
+    }
+
+    /** Same target as sidebar navigation; smooth scroll matches user-driven scrolling. */
+    function scrollToProjectSmooth(idx) {
+      const slideHeight = root.scrollHeight / allSlides.length;
+      const singleHeight = root.scrollHeight / 3;
+      const viewportH = window.innerHeight;
+      const targetCenter = idx * slideHeight + slideHeight / 2 - viewportH / 2;
+      const currentScroll = root.scrollTop;
+      const candidates = [
+        targetCenter,
+        singleHeight + targetCenter,
+        singleHeight * 2 + targetCenter,
+      ].map((t) => Math.max(0, Math.min(t, root.scrollHeight - viewportH)));
+      const nearest = candidates.reduce((best, c) =>
+        Math.abs(c - currentScroll) < Math.abs(best - currentScroll) ? c : best
+      );
+      const restore = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'smooth';
+      root.scrollTop = nearest;
+      root.style.scrollBehavior = restore;
+    }
+
+    function shieldStripScrollDuringProgrammaticSmooth() {
+      ignoreScrollResetUntil = performance.now() + PROGRAMMATIC_SMOOTH_FALLBACK_MS;
+      let finished = false;
+      const release = () => {
+        if (finished) return;
+        finished = true;
+        window.clearTimeout(fallbackId);
+        root.removeEventListener('scrollend', release);
+        ignoreScrollResetUntil = performance.now() + 80;
+      };
+      const fallbackId = window.setTimeout(release, PROGRAMMATIC_SMOOTH_FALLBACK_MS);
+      root.addEventListener('scrollend', release, {once: true});
+    }
+
+    function runAutoAdvance() {
+      if (!shouldRunAutoAdvance()) return;
+      const currentIdx = getCurrentOriginalIdx();
+      const nextIdx = (currentIdx + 1) % projectCount;
+      shieldStripScrollDuringProgrammaticSmooth();
+      scrollToProjectSmooth(nextIdx);
+      scheduleIdleTimer();
+    }
+
+    function onStripScroll() {
+      if (performance.now() < ignoreScrollResetUntil) return;
+      resetIdleTimer();
+    }
+
+    function onVisibilityChange() {
+      if (document.visibilityState === 'hidden') {
+        clearIdleTimer();
+      } else {
+        resetIdleTimer();
+      }
+    }
+
+    function onPrefersMotionChange() {
+      if (motionQuery.matches) {
+        clearIdleTimer();
+      } else {
+        resetIdleTimer();
+      }
+    }
+
+    root.addEventListener('scroll', onStripScroll, {passive: true});
+    window.addEventListener('resize', resetIdleTimer);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    if (typeof motionQuery.addEventListener === 'function') {
+      motionQuery.addEventListener('change', onPrefersMotionChange);
+    } else if (typeof motionQuery.addListener === 'function') {
+      motionQuery.addListener(onPrefersMotionChange);
+    }
+
+    document.querySelectorAll('.nameLink').forEach((link) => {
+      link.addEventListener('click', () => {
+        resetIdleTimer();
+      });
+    });
+
+    window.addEventListener('load', () => {
+      window.requestAnimationFrame(() => {
+        resetIdleTimer();
+      });
+    });
   })();
 </script>
 
