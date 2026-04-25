@@ -223,6 +223,9 @@ const textColorClass =
   :global(body.project-text-white .nav),
   :global(body.project-text-white .nav a),
   :global(body.project-text-white .site-footer),
+  :global(body.project-text-white .site-footer a),
+  :global(body.project-text-white .site-footer__legal),
+  :global(body.project-text-white .site-footer__copy),
   :global(body.project-text-white .site-footer small),
   :global(body.project-text-white .site-main),
   :global(body.project-text-white .project-content),
@@ -239,6 +242,9 @@ const textColorClass =
   :global(body.project-text-black .nav),
   :global(body.project-text-black .nav a),
   :global(body.project-text-black .site-footer),
+  :global(body.project-text-black .site-footer a),
+  :global(body.project-text-black .site-footer__legal),
+  :global(body.project-text-black .site-footer__copy),
   :global(body.project-text-black .site-footer small),
   :global(body.project-text-black .site-main),
   :global(body.project-text-black .project-content),
@@ -272,6 +278,15 @@ const textColorClass =
     :global(body.project-page.project-vh-underfill .site-footer),
     :global(body.project-page.project-video-only .site-footer),
     :global(body.project-page.project-video-with-images .site-footer),
+    :global(body.project-page.project-vh-underfill .site-footer a),
+    :global(body.project-page.project-video-only .site-footer a),
+    :global(body.project-page.project-video-with-images .site-footer a),
+    :global(body.project-page.project-vh-underfill .site-footer__legal),
+    :global(body.project-page.project-video-only .site-footer__legal),
+    :global(body.project-page.project-video-with-images .site-footer__legal),
+    :global(body.project-page.project-vh-underfill .site-footer__copy),
+    :global(body.project-page.project-video-only .site-footer__copy),
+    :global(body.project-page.project-video-with-images .site-footer__copy),
     :global(body.project-page.project-vh-underfill .site-footer small),
     :global(body.project-page.project-video-only .site-footer small),
     :global(body.project-page.project-video-with-images .site-footer small),
@@ -301,7 +316,7 @@ const textColorClass =
       flex-direction: column;
       justify-content: center;
       min-height: 100vh;
-      padding-top: calc(var(--headerH) + 20px);
+      padding-top: calc(var(--project-chrome-total) + 20px);
       padding-bottom: calc(var(--footerH) + 20px);
       box-sizing: border-box;
     }
@@ -379,7 +394,7 @@ const textColorClass =
 
   :global(.next-project-link) {
     position: fixed;
-    right: calc(10px + env(safe-area-inset-right, 0px));
+    right: calc(var(--gutter) + var(--sar));
     bottom: calc(10% + env(safe-area-inset-bottom, 0px));
     z-index: 1000;
     font-size: 1.2rem;

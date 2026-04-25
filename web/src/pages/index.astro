@@ -176,8 +176,10 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     .index-project-title {
       display: block;
       position: fixed;
-      left: calc(10px + env(safe-area-inset-left, 0px));
-      top: calc(var(--headerH) + var(--project-title-gap) + env(safe-area-inset-top, 0px));
+      left: calc(var(--gutter) + var(--sal));
+      top: calc(
+        var(--header-pad-y) + var(--sat) + var(--brand-line) + var(--project-name-title-gap)
+      );
       padding: 0;
       margin: 0;
       font-size: 0.9rem;
@@ -188,6 +190,10 @@ projects = projects.filter((p) => Boolean(p.coverImage?.asset));
     }
     :global(body) {
       touch-action: none;
+    }
+
+    :global(body.index-page .site-main) {
+      padding-bottom: 0;
     }
   }
 

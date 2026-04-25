@@ -22,14 +22,18 @@ try {
 }
 ---
 
-<BaseLayout title="Imprint – Karl Scholten" description="Legal information." bodyClass="imprint-page">
+<BaseLayout
+  title="Imprint & Privacy – Karl Scholten"
+  description="Legal information."
+  bodyClass="imprint-page"
+>
   <article class="content">
-    <h1>{page?.title ?? 'Imprint'}</h1>
+    <h1>{page?.title ?? 'Imprint & Privacy'}</h1>
     {page?.content?.length ? (
       <PortableText value={page.content} />
     ) : (
       <p>
-        No Imprint content yet. Edit <strong>Imprint</strong> in Sanity and refresh.
+        No Imprint &amp; Privacy content yet. Edit the legal page in Sanity and refresh.
       </p>
     )}
   </article>
@@ -48,8 +52,8 @@ try {
 
   @media (max-width: 900px) {
     .content {
-      padding-left: 12px;
-      padding-right: 12px;
+      padding-left: calc(var(--gutter) + var(--sal));
+      padding-right: calc(var(--gutter) + var(--sar));
     }
   }
 
