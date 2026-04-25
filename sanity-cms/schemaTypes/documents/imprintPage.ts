@@ -12,7 +12,7 @@ export const imprintPage = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      initialValue: 'Imprint',
+      initialValue: 'Imprint & Privacy',
       validation: (rule) => rule.required(),
     }),
     defineField({
